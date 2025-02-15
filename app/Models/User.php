@@ -18,7 +18,7 @@ class User extends Authenticatable
 
     protected $fillable = ['name', 'email', 'password'];
 
-    protected $hidden = ['password', 'remember_token',];
+    protected $hidden = ['password', 'remember_token'];
 
     protected function casts(): array
     {
@@ -26,6 +26,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public static function getUser(string $id)
+    {
+        try {
+            $user = DB::table('users')
+                ->select('id', 'name', 'email')
+                ->where('id', '=', $id)
+                ->get();
+            return $user;
+        } catch (Exception $e) {
+            return 'Usuario no encontrado. Código de error: ' . $e->getCode();
+        }
     }
 
     public static function createUser(Request $request)
@@ -43,7 +56,41 @@ class User extends Authenticatable
             return $user;
 
         } catch (Exception $e) {
-            return 'El usuario no se ha podido crear. Código de error:' . $e->getCode();
+            return 'El usuario no se ha podido crear. Código de error: ' . $e->getCode();
+        }
+    }
+
+    public static function updateUser(string $id, Request $request)
+    {
+        // Hay que recorrer las key y las value de la request para inyectarlas en el select
+        // De la misma forma que el patch de messages en clinicalahuellaAPI
+        try {
+            if($request->has('password')) {
+                $user = DB::table('users')
+                ->where('id', $id)
+                ->update(['password' => Hash::make($request->password)]);
+                
+                return $user;
+            }
+            $user = DB::table('users')
+                ->where('id', $id)
+                ->update($request->except('_token', '_method'));
+            return $user;
+        } catch (Exception $e) {
+            return 'El usuario no se ha podido actualizar. Código de error: ' . $e->getMessage();
+        }
+    }
+
+    public static function deleteUser(string $id)
+    {
+        try {
+            $user = DB::table('users')
+                ->where('id', $id)
+                ->delete();
+            
+            return $user;
+        } catch (Exception $e) {
+            return 'El usuario no ha podido ser eliminado. Código de error: ' . $e->getCode();
         }
     }
 }

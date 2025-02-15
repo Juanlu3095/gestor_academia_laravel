@@ -464,6 +464,12 @@
       opacity: 1;
     }
   }
+
+  .errors {
+    color: red;
+    margin-top: 1rem;
+    margin-bottom: -2rem;
+  }
   
   
   

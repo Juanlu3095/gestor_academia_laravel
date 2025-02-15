@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,4 +16,7 @@ Route::post('/authenticate', [AuthController::class, 'login'])->name('auth.login
 Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
-Route::get('/prueba', [AuthController::class, 'prueba_user_model']);
+/* Perfil */
+Route::get('/perfil', [UserController::class, 'index'])->middleware('auth.basic')->name('perfil');
+Route::patch('/users/{id}', [UserController::class, 'updateCurrentUserData'])->name('user.patch');
+Route::delete('/users/{id}', [UserController::class, 'deleteCurrentUser'])->name('user.delete');

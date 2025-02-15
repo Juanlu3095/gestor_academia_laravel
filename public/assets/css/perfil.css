@@ -1,0 +1,48 @@
+.container {
+    border: 1px solid;
+    box-shadow: 5px 10px #888888;
+    margin: 2% 20%;
+    padding: 1rem;
+}
+
+.user-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-form button {
+    width: 30%;
+    margin-top: 1rem;
+}
+
+.pass-form {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.pass-form input {
+    width: 60%;
+}
+
+.container h3 {
+    margin: 0.5rem 0;
+}
+
+button, input {
+    padding: 0.25rem;
+}
+
+.caution h3 {
+    color: red;
+}
+
+.caution form {
+    margin-bottom: 0.5rem;
+}
+
+.btn-delete {
+    color: white;
+    background-color: red;
+    border-color: red;
+}

@@ -8,6 +8,8 @@
 <!--===============================================================================================-->	
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <!--===============================================================================================-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/utils.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/login.css') }}">
 <!--===============================================================================================-->
@@ -26,12 +28,12 @@
 						<i class="zmdi zmdi-font"></i>
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
-						<input class="input100" type="text" name="email">
+					<div class="wrap-input100 validate-input" data-validate = "Email no válido.">
+						<input class="input100" type="text" name="email" value="{{ old('email') }}">
 						<span class="focus-input100" data-placeholder="Email"></span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="Enter password">
+					<div class="wrap-input100 validate-input" data-validate="Contraseña requerida.">
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
@@ -47,6 +49,14 @@
 							</button>
 						</div>
 					</div>
+
+					@if($errors->any())
+					<ul class="errors">
+						@foreach ($errors->all() as $error)
+							<li>{{ $error }}</li>
+						@endforeach
+					</ul>
+					@endif
 
 					<div class="text-center p-t-115">
 						<span class="txt1">

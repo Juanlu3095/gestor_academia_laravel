@@ -16,6 +16,9 @@
             }
         })    
     })
+
+    // Tiene que haber alguna forma para que al recargar la página con el back() de AuthController@login, el nombre del input
+    // no baje y se quede arriba al igual que cuando se rellena el input con el email y/o contraseña.
   
   
     /*==================================================================

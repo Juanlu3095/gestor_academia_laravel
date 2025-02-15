@@ -42,7 +42,9 @@ class AuthController extends Controller
  
             return redirect()->route('welcome');
         } else {
-            abort(401);
+            return back()->withErrors([ // Devolvemos a la página del login con los errores
+                'email' => 'Email y/o contraseña no válidos.', // Estos errores los mostramos directamente en blade con $errors
+            ])->onlyInput('email');
         }
     }
 
@@ -79,10 +81,5 @@ class AuthController extends Controller
      
         return redirect('/login');
     }
-
-    public function prueba_user_model ()
-    {
-        $users = DB::table('users')->get();
-        return view('welcome', compact('users'));
-    }
+    
 }

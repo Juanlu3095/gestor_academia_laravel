@@ -1,0 +1,24 @@
+header {
+    padding-bottom: 2rem;
+}
+
+.titulo {
+    text-align: center;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #31C0FD;
+}
+
+.menu-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.menu-list li {
+    list-style-type: none;
+}
+
+a.menu-item {
+    text-decoration: none;
+}

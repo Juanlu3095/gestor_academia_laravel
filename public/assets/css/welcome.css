@@ -1,0 +1,9 @@
+.bienvenida {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 70vh;
+    align-items: center;
+    justify-content: center;
+}
+

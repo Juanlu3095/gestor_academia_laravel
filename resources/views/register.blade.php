@@ -7,6 +7,8 @@
 <!--===============================================================================================-->	
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <!--===============================================================================================-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/utils.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/login.css') }}">
 <!--===============================================================================================-->
@@ -23,12 +25,12 @@
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "El nombre es requerido.">
-						<input class="input100" type="text" name="name">
+						<input class="input100" type="text" name="name" value="{{ old('name') }}">
 						<span class="focus-input100" data-placeholder="Nombre"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Email no válido.">
-						<input class="input100" type="text" name="email">
+						<input class="input100" type="text" name="email" value="{{ old('email') }}">
 						<span class="focus-input100" data-placeholder="Email"></span>
 					</div>
 
