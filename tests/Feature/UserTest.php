@@ -142,7 +142,7 @@ class UserTest extends TestCase
         $userId = Auth::user()->id; // La id del usuario autenticado
 
         $response = $this->delete("/users/$userId");
-        $this->assertDatabaseMissing('users', [
+        $this->assertDatabaseMissing('users', [ // Comprobamos que el registro en la BD no existe
             "email" => "pepe@gmail.com"
         ]);
         $this->assertGuest(); // Comprobamos que el usuario no está autenticado
