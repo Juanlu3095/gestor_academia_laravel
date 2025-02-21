@@ -8,7 +8,7 @@
             <li><a class="menu-item" href="{{ route('welcome') }}">Inicio</a></li>
             <li><a class="menu-item" href="">Cursos</a></li>
             <li><a class="menu-item" href="">Incidencias</a></li>
-            <li><a class="menu-item" href="">Alumnos</a></li>
+            <li><a class="menu-item" href="{{ route('alumnos.index') }}">Alumnos</a></li>
             <li><a class="menu-item" href="">Profesores</a></li>
             <li><a class="menu-item" href="{{ route('perfil') }}">Perfil</a></li>
         </ul>

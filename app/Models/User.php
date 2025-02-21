@@ -74,7 +74,7 @@ class User extends Authenticatable
             }
             $user = DB::table('users')
                 ->where('id', $id)
-                ->update($request->except('_token', '_method'));
+                ->update($request->except('_token', '_method'), ['updated_at' => now()]); // El updated_at no funciona en los test
             return $user;
         } catch (Exception $e) {
             return 'El usuario no se ha podido actualizar. Código de error: ' . $e->getMessage();

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::get('/perfil', [UserController::class, 'index'])->middleware('auth')->name('perfil');
 Route::patch('/users/{id}', [UserController::class, 'updateCurrentUserData'])->name('user.patch');
 Route::delete('/users/{id}', [UserController::class, 'deleteCurrentUser'])->name('user.delete');
+
+/* Alumnos */
+Route::get('/alumnos', [StudentController::class, 'index'])->name('alumnos.index');
+Route::get('/alumnos/{id}', [StudentController::class, 'show'])->name('alumnos.show');
+Route::post('/alumnos', [StudentController::class, 'create'])->name('alumnos.create');
+Route::put('/alumnos/{id}', [StudentController::class, 'update'])->name('alumnos.put');
+Route::delete('/alumnos/{id}', [StudentController::class, 'delete'])->name('alumnos.delete');
+
+/* Profesores */
+
+/* Incidencias */
+
+/* Cursos */

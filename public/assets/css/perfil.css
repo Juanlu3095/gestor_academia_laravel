@@ -1,7 +1,8 @@
 .container {
     border: 1px solid;
     box-shadow: 5px 10px #888888;
-    margin: 2% 20%;
+    /* margin: 2% 20%; */
+    margin-bottom: 2rem;
     padding: 1rem;
 }
 

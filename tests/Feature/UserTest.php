@@ -109,7 +109,7 @@ class UserTest extends TestCase
             "password" => "pepo"
         ]);
         $response = $this->get('/perfil');
-        $response->assertStatus(401);
+        $response->assertStatus(302); // Al usar el middleware 'auth' y no 'auth.basic' se espera redirección a login
     }
 
     public function test_update_user()
@@ -129,6 +129,10 @@ class UserTest extends TestCase
 
         $response = $this->patch("/users/$userId", $data)
             ->assertRedirect('/perfil');
+
+        $this->assertDatabaseHas('users', [ // Comprobamos que el email se haya editado correctamente
+            'email' => 'alfonso@gmail.com',
+        ]);
     }
   
     public function test_delete_user()
