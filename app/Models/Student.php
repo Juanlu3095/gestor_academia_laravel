@@ -13,13 +13,23 @@ class Student extends Model
 
     protected $hidden = [];
 
-    public static function getStudents()
+    public static function getStudents(string $busqueda = null)
     {
         try {
-            $students = DB::table('students')
-                ->select('id', 'nombre', 'apellidos', 'email', 'dni')
-                ->get();
+            if($busqueda != null) {
+                $students = DB::table('students')
+                    ->select('id', 'nombre', 'apellidos', 'email', 'dni')
+                    ->whereAny(['nombre', 'apellidos', 'email', 'dni'], 'like', "%$busqueda%")
+                    ->paginate(5);
+
+            } else {
+                $students = DB::table('students')
+                    ->select('id', 'nombre', 'apellidos', 'email', 'dni')
+                    ->paginate(5);
+            }
+            
             return $students;
+            
         } catch (Exception $e) {
             return 'Error en la consulta. Código de error: ' . $e->getCode();
         }

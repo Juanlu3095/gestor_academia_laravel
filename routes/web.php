@@ -23,7 +23,7 @@ Route::patch('/users/{id}', [UserController::class, 'updateCurrentUserData'])->n
 Route::delete('/users/{id}', [UserController::class, 'deleteCurrentUser'])->name('user.delete');
 
 /* Alumnos */
-Route::get('/alumnos', [StudentController::class, 'index'])->name('alumnos.index');
+Route::get('/alumnos', [StudentController::class, 'index'])->middleware('auth')->name('alumnos.index');
 Route::get('/alumnos/{id}', [StudentController::class, 'show'])->name('alumnos.show');
 Route::post('/alumnos', [StudentController::class, 'create'])->name('alumnos.create');
 Route::put('/alumnos/{id}', [StudentController::class, 'update'])->name('alumnos.put');

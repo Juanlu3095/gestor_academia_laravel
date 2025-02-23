@@ -9,9 +9,15 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::getStudents();
+        $busqueda = $request->query('busqueda'); // Obtenemos el parámetro de consulta del form con GET
+
+        if($busqueda) {
+            $students = Student::getStudents($busqueda);
+        } else {
+            $students = Student::getStudents();
+        }
 
         return view('alumnos', compact('students'));
     }

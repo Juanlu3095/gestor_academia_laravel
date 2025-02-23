@@ -9,12 +9,16 @@
 @section('content')
 
     <div class="alumnos-container">
-        <div class="new-container">
+        <div class="new-container d-flex justify-content-between">
+            <form action="{{ route('alumnos.index') }}" class="d-flex gap-3">
+                <input type="text" class="form-control" name="busqueda" id="busqueda" placeholder="Palabra clave">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoModal">+ Añadir alumno</button>
         </div>
-
+        
         <!-- TABLA -->
-        <table class="table table-striped" id="tabla">
+        <table class="table table-striped table-responsive" id="tabla">
             <thead>
                 <tr>
                     <th scope="col">Nombre</th>
@@ -39,6 +43,7 @@
                 @endforeach
             </tbody>
         </table>
+        {{ $students->links('layouts._partials.paginator') }}
     </div>
 
     <!-- MODALES -->
