@@ -63,8 +63,10 @@ class StudentController extends Controller
         ]);
         Student::updateStudent($id, $request);
 
-        // Devolvemos el alumno actualizado para mostrarlo con AJAX
-        return $student; // ¿NO DEBERÍA DEVOLVER EL ALUMNO ANTES DE SER ACTUALIZADO POR USAR $student DE ANTES DEL UPDATE?
+        // ESTÁ DEVOLVIENDO EL ANTIGUO, PERO AJAX CARGA LOS DATOS DE TODOS LOS ALUMNOS Y POR ESO SALE BIEN
+        // return $student;
+        
+        return response('Alumno actualizado.', 200);
 
     }
 

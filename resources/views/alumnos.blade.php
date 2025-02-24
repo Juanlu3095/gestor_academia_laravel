@@ -18,31 +18,33 @@
         </div>
         
         <!-- TABLA -->
-        <table class="table table-striped table-responsive" id="tabla">
-            <thead>
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellidos</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">DNI</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($students as $student)
+        <div class="table-responsive">
+            <table class="table table-striped table-responsive" id="tabla">
+                <thead>
                     <tr>
-                        <th scope="row" id="table-nombre">{{ $student->nombre }}</th>
-                        <td id="table-apellidos">{{ $student->apellidos }}</td>
-                        <td id="table-email">{{ $student->email }}</td>
-                        <td id="table-dni">{{ $student->dni }}</td>
-                        <td>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal" data-editar="{{ $student->id }}" onclick="verModal(this)">Editar</button>
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal"data-eliminarid="{{ $student->id }}" data-eliminarnombre="{{ $student->nombre }}" onclick="eliminarModal(this)">Eliminar</button>
-                        </td>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellidos</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">DNI</th>
+                        <th scope="col">Acciones</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($students as $student)
+                        <tr>
+                            <th scope="row" id="table-nombre">{{ $student->nombre }}</th>
+                            <td id="table-apellidos">{{ $student->apellidos }}</td>
+                            <td id="table-email">{{ $student->email }}</td>
+                            <td id="table-dni">{{ $student->dni }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal" data-editar="{{ $student->id }}" onclick="verModal(this)">Editar</button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal"data-eliminarid="{{ $student->id }}" data-eliminarnombre="{{ $student->nombre }}" onclick="eliminarModal(this)">Eliminar</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
         {{ $students->links('layouts._partials.paginator') }}
     </div>
 
@@ -193,7 +195,7 @@
                         $("#table-apellidos").text(response[0].apellidos);
                         $("#table-email").text(response[0].email);
                         $("#table-dni").text(response[0].dni);  */
-
+                        
                         // Ésta es la forma correcta, se recarga sólo la tabla con los datos actualizados
                         $( "#tabla" ).load( "/alumnos #tabla" );
 

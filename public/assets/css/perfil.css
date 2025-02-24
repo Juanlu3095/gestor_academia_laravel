@@ -1,9 +1,19 @@
 .container {
     border: 1px solid;
     box-shadow: 5px 10px #888888;
-    /* margin: 2% 20%; */
     margin-bottom: 2rem;
     padding: 1rem;
+
+    @media screen and (max-width: 1023px) {
+        width: 90%;
+        margin-top: 2rem;
+    }
+}
+
+.container, .container h3 {
+    @media screen and (max-width: 1023px) {
+        font-size: 12px;
+    }
 }
 
 .user-form {
@@ -14,16 +24,28 @@
 .user-form button {
     width: 30%;
     margin-top: 1rem;
+
+    @media screen and (max-width: 768px) {
+        width: 40%;
+    }
 }
 
 .pass-form {
     display: flex;
     flex-direction: row;
     gap: 1rem;
+
+    @media screen and (max-width: 500px) {
+        flex-direction: column;
+    }
 }
 
 .pass-form input {
     width: 60%;
+
+    @media screen and (max-width: 500px) {
+        width: auto;
+    }
 }
 
 .container h3 {
