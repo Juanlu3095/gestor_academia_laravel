@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Alumnos')
+@section('title', 'Profesores')
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/tabladatos.css') }}">
@@ -10,11 +10,11 @@
 
     <div class="datos-container">
         <div class="new-container d-flex justify-content-between">
-            <form action="{{ route('alumnos.index') }}" class="d-flex gap-3">
+            <form action="{{ route('profesores.index') }}" class="d-flex gap-3">
                 <input type="text" class="form-control" name="busqueda" id="busqueda" placeholder="Palabra clave">
                 <button type="submit" class="btn btn-primary">Buscar</button>
             </form>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoModal">+ Añadir alumno</button>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoModal">+ Añadir profesor</button>
         </div>
         
         <!-- TABLA -->
@@ -30,36 +30,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($students as $student)
+                    @foreach ($teachers as $teacher)
                         <tr>
-                            <th scope="row" id="table-nombre">{{ $student->nombre }}</th>
-                            <td id="table-apellidos">{{ $student->apellidos }}</td>
-                            <td id="table-email">{{ $student->email }}</td>
-                            <td id="table-dni">{{ $student->dni }}</td>
+                            <th scope="row" id="table-nombre">{{ $teacher->nombre }}</th>
+                            <td id="table-apellidos">{{ $teacher->apellidos }}</td>
+                            <td id="table-email">{{ $teacher->email }}</td>
+                            <td id="table-dni">{{ $teacher->dni }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal" data-editar="{{ $student->id }}" onclick="verModal(this)">Editar</button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal"data-eliminarid="{{ $student->id }}" data-eliminarnombre="{{ $student->nombre }}" onclick="eliminarModal(this)">Eliminar</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal" data-editar="{{ $teacher->id }}" onclick="verModal(this)">Editar</button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal"data-eliminarid="{{ $teacher->id }}" data-eliminarnombre="{{ $teacher->nombre }}" onclick="eliminarModal(this)">Eliminar</button>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-        {{ $students->links('layouts._partials.paginator') }}
+        {{ $teachers->links('layouts._partials.paginator') }}
     </div>
 
     <!-- MODALES -->
-    <!-- Modal nuevo alumno -->
+    <!-- Modal nuevo profesor -->
     <div class="modal fade" id="nuevoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Añadir alumno</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Añadir profesor</h5>
                     <button type="button" class="close btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('alumnos.create') }}" method="POST" id="nuevo-form">
+                <form action="{{ route('profesores.create') }}" method="POST" id="nuevo-form">
                     <div class="modal-body">
                         @method('POST')
                         @csrf
@@ -78,19 +78,19 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" value="Cancelar">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Crear alumno</button>
+                        <button type="submit" class="btn btn-primary">Crear profesor</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Modal editar alumno -->
+    <!-- Modal editar profesor -->
     <div class="modal fade" id="editarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Editar alumno</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Editar profesor</h5>
                     <button type="button" class="close btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -123,12 +123,12 @@
         </div>
     </div>
 
-    <!-- Modal eliminar alumno -->
+    <!-- Modal eliminar profesor -->
     <div class="modal fade" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Eliminar alumno</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar profesor</h5>
                     <button type="button" class="close btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -138,12 +138,12 @@
                     @method('DELETE')
                     @csrf
                     <div class="modal-content px-4 py-4">
-                        <span>¿Estás seguro de que quieres eliminar el alumno <a id="nombrealumno"></a>?</span>
+                        <span>¿Estás seguro de que quieres eliminar el profesor <a id="nombreprofesor"></a>?</span>
                     </div>
                     
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" value="Cancelar">Cerrar</button>
-                        <button type="button" id="confirmarEliminar" class="btn btn-danger">Eliminar alumno</button>
+                        <button type="button" id="confirmarEliminar" class="btn btn-danger">Eliminar profesor</button>
                     </div>
                 </form>
             </div>
@@ -153,95 +153,106 @@
 @endsection
 
 @section('scripts')
-    <script>
 
-        // Al abrir modal de editar alumno
-        function verModal(data) {
-            let id = data.getAttribute('data-editar');
+<script>
 
-            $.ajax({
-                type: 'GET',
-                url: '/alumnos/' + id,
+// Al abrir modal de editar alumno
+    function verModal(data) {
+        let id = data.getAttribute('data-editar');
 
-                success: function (response) {
-                    
-                    $("#editar-id").val(response[0].id);
-                    $("#editar-nombre").val(response[0].nombre);
-                    $("#editar-apellidos").val(response[0].apellidos);
-                    $("#editar-email").val(response[0].email);
-                    $("#editar-dni").val(response[0].dni); 
-                    
-                    //$("#editar-form").attr('action', nuevaURL); // Solo crea /alumnos/6 MAL muy mal ChatGPT
-                }
+        fetch(`/profesores/${id}`)
+            .then(response => response.json())
+                .then(datos => {
+                    $("#editar-id").val(datos[0].id);
+                    $("#editar-nombre").val(datos[0].nombre);
+                    $("#editar-apellidos").val(datos[0].apellidos);
+                    $("#editar-email").val(datos[0].email);
+                    $("#editar-dni").val(datos[0].dni);
+                })
+            .catch(error => {
+                console.error(error)
             })
-        }
+    }
 
-        // Al confirmar la edición del alumno
-        function editarModal() {
-            var form =$("#editar-form"); //Identificamos el formulario por su id. Podemos usar form.prop('action')
-            var datos = form.serialize();  //Serializamos sus datos: method, _token y values de los input
-            // var datosArray = form.serializeArray(); // Devolvería los datos en array
+    // Al confirmar la edición del alumno
+    function editarModal() {
+        var form = $("#editar-form"); //Identificamos el formulario por su id. Podemos usar form.prop('action')
+        var datos = form.serialize();  //Serializamos sus datos: method, _token y values de los input
+        var datosArray = form.serializeArray(); // Devolvería los datos en array
 
-            $.ajax({
-                type: 'PUT',
-                url: '/alumnos/' + $("#editar-id").val(), // con val() obtenemos el value del input
-                data: datos,
+        fetch('/profesores/' + $("#editar-id").val(), {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json', // Lo que se envía desde JS
+                'Accept': 'text/plain', // Lo que se recibe como respuesta del fetch
+                'X-CSRF-TOKEN': datosArray.filter(element => element.name == '_token')[0].value // necesitamos pasarle el token para POST, PUT y DELETE
+            },
+            body: JSON.stringify({
+                // FILTER vs FIND para buscar elementos en un array
+                // Filter devuelve un array (todos lo elementos que cumplen la condición => element.name == 'nombre')
+                // Find devuleve un único objeto (el primero que cumple la condición)
 
-                success: function (response) {
-                    if(response) {
-                        
-                        // Esto sólo edita el primer registro y modifica éste al intentar actualizar cualquier otro registro
-                        /* $("#table-nombre").text(response[0].nombre); // con text() obtenemos el valor del <td>
-                        $("#table-apellidos").text(response[0].apellidos);
-                        $("#table-email").text(response[0].email);
-                        $("#table-dni").text(response[0].dni);  */
-                        
-                        // Ésta es la forma correcta, se recarga sólo la tabla con los datos actualizados
-                        $( "#tabla" ).load( "/alumnos #tabla" );
-
-                        alert('Datos del alumno actualizados.')
-                        $('#editarModal').modal('hide')
-                    }
-                },
-                error: function (error) {
-                    alert(`${error.responseJSON.message} Código del error: ${error.status}`)
-                }
+                nombre: datosArray.filter(element => element.name == 'nombre')[0].value, 
+                apellidos: datosArray.filter(element => element.name == 'apellidos')[0].value,
+                email: datosArray.find(element => element.name == 'email').value,
+                dni: datosArray.find(element => element.name == 'dni').value
             })
-        }
+        })
+        .then(respuesta => {
+            if (respuesta.ok) {
+                return respuesta.text()
+            }
+            throw new Error("Error " + respuesta.status + " al llamar al backend: " + respuesta.statusText);
+        })
+        .then(datos => {
+            $( "#tabla" ).load( "/profesores #tabla" )
+            alert(datos)
+            $('#editarModal').modal('hide')
+        })
+        .catch(error => {
+            console.error(error)
+        })
+    }
 
-        // Al abrir modal para eliminar
-        function eliminarModal(data) // El parámetro debe estar en el botón eliminar 
+    // Al abrir modal para eliminar
+    function eliminarModal(data) // El parámetro debe estar en el botón eliminar 
         {
             let id = data.getAttribute('data-eliminarid');
             let nombre = data.getAttribute('data-eliminarnombre');
             var form = $("#eliminar-form"); // Identificamos el formulario por su id. Podemos usar form.prop('action')
-            var datos = form.serialize();  // Serializamos sus datos: method y _token, éste último nos lo pide para el delete
+            var datos = form.serializeArray();  // Serializamos sus datos: method y _token, éste último nos lo pide para el delete
 
-            document.getElementById('nombrealumno').innerHTML = nombre;
+            document.getElementById('nombreprofesor').innerHTML = nombre;
             confirmar = document.getElementById("confirmarEliminar");
 
             // Se ejecuta cuando hacemos click para confirmar el delete
             confirmar.addEventListener('click', function() {
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/alumnos/' + id,
-                    data: datos,
-
-                    success: function(response) {
-                        alert('Alumno eliminado.')
-                        $('#eliminarModal').modal('hide')
-                        
-                        // Se recargan correctamente los datos de la tabla al eliminar un registro
-                        $( "#tabla" ).load( "/alumnos #tabla" );
-
-                    },
-                    error: function (error) {
-                        alert(`${error.responseJSON.message} Código del error: ${error.status}.`)
+                fetch(`/profesores/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        // Otra forma de seleccionar el valor del token del form. Si no especificamos la id del formulario,
+                        // seleccionará el primer formulario que encuentre con el input indicado del html
+                        'X-CSRF-TOKEN': document.querySelector('#eliminar-form input[name=_token]').value
                     }
-
+                })
+                .then(respuesta => {
+                    if (respuesta.ok) {
+                        return respuesta.json()
+                    }
+                    throw new Error("Error " + respuesta.status + " al llamar al backend: " + respuesta.statusText);
+                })
+                .then (respuesta => {
+                    alert('Profesor eliminado.')
+                    $('#eliminarModal').modal('hide')
+                        
+                    // Se recargan correctamente los datos de la tabla al eliminar un registro
+                    $( "#tabla" ).load( "/profesores #tabla" );
+                })
+                .catch (error => {
+                    console.error(error)
                 })
             })
-
         }
-    </script>
-@endsection
+</script>
+            
+@endsection()

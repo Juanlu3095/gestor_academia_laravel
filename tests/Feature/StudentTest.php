@@ -98,6 +98,16 @@ class StudentTest extends TestCase
     }
 
     /**
+    * Test to search students by keyword.
+    */
+    public function test_search_student ()
+    {
+        $response = $this->actingAs($this->create_user())->get('/alumnos/?busqueda=jacinto');
+        $response->assertSee('Jacinto');
+        $response->assertStatus(200);
+    }
+
+    /**
     * Test to get update a specific student.
     */
     public function test_update_student ()

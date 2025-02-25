@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,11 @@ Route::put('/alumnos/{id}', [StudentController::class, 'update'])->name('alumnos
 Route::delete('/alumnos/{id}', [StudentController::class, 'delete'])->name('alumnos.delete');
 
 /* Profesores */
+Route::get('/profesores', [TeacherController::class, 'index'])->middleware('auth')->name('profesores.index');
+Route::get('/profesores/{id}', [TeacherController::class, 'show'])->name('profesores.show');
+Route::post('/profesores', [TeacherController::class, 'create'])->name('profesores.create');
+Route::put('/profesores/{id}', [TeacherController::class, 'update'])->name('profesores.put');
+Route::delete('/profesores/{id}', [TeacherController::class, 'delete'])->name('profesores.delete');
 
 /* Incidencias */
 

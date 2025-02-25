@@ -11,6 +11,10 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
+        $request->validate([
+            'busqueda' => 'string'
+        ]);
+
         $busqueda = $request->query('busqueda'); // Obtenemos el parámetro de consulta del form con GET
 
         if($busqueda) {

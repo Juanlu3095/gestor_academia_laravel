@@ -13,13 +13,23 @@ class Teacher extends Model
 
     protected $hidden = [];
 
-    public static function getTeachers ()
+    public static function getTeachers (string $busqueda = null)
     {
         try {
-            $teachers = DB::table('teachers')
-                ->select('id', 'nombre', 'apellidos', 'email', 'dni')
-                ->get();
+            if($busqueda != null) {
+                $teachers = DB::table('teachers')
+                    ->select('id', 'nombre', 'apellidos', 'email', 'dni')
+                    ->whereAny(['nombre', 'apellidos', 'email', 'dni'], 'like', "%$busqueda%")
+                    ->paginate(5);
+                    
+            } else {
+                $teachers = DB::table('teachers')
+                    ->select('id', 'nombre', 'apellidos', 'email', 'dni')
+                    ->paginate(5);
+            }
+
             return $teachers;
+
         } catch (Exception $e) {
             return 'Error en la consulta. Código de error: ' . $e->getCode();
         }
@@ -35,11 +45,7 @@ class Teacher extends Model
             return $teacher;
 
         } catch (Exception $e) {
-            if ($e->getCode() == 404) {
-                return 'Profesor no encontrado. Código del error: ' . $e->getCode();
-            } else {
-                return 'Error en la consulta. Código del error: ' . $e->getCode();
-            }
+            return 'Error en la consulta. Código del error: ' . $e->getCode();
         }
     }
 
@@ -71,28 +77,20 @@ class Teacher extends Model
             return $teacher;
 
         } catch (Exception $e) {
-            if ($e->getCode() == 404) {
-                return 'No se ha encontrado al profesor. Código de error: ' . $e->getCode();
-            } else {
-                return 'Error en la consulta. Código de error: ' . $e->getCode();
-            }
+            return 'Error en la consulta. Código del error: ' . $e->getCode();
         }
     }
 
     public static function deleteTeacher (string $id)
     {
         try {
-            $teacher = DB::table('teachers')
+            $query = DB::table('teachers')
                 ->where('id', $id)
                 ->delete();
             
-            return $teacher;
+            return $query;
         } catch (Exception $e) {
-            if ($e->getCode() == 404) {
-                return 'No se ha encontrado al profesor. Código de error: ' . $e->getCode();
-            } else {
-                return 'Error en la consulta. Código de error: ' . $e->getCode();
-            }
+            return 'Error en la consulta. Código del error: ' . $e->getCode();
         }
     }
 }
