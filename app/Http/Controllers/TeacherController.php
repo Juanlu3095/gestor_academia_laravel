@@ -48,7 +48,7 @@ class TeacherController extends Controller
 
         $student = Teacher::createTeacher($request);
 
-        if(!$student) { // ¿Cuándo prodría ocurrir este error? ¿Cuándo se pierda la conexión a base de datos?
+        if(!$student) {
             throw new Error('El profesor no ha sido creado.');
         }
 

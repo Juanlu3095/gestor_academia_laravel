@@ -33,27 +33,27 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ route('welcome') }}">Inicio</a>
+                            <a class="nav-link menu-item" aria-current="page" href="{{ route('welcome') }}">Inicio</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Cursos</a>
+                            <a class="nav-link menu-item" href="#">Cursos</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Incidencias</a>
+                            <a class="nav-link menu-item" href="#">Incidencias</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('alumnos.index') }}">Alumnos</a>
+                            <a class="nav-link menu-item" href="{{ route('alumnos.index') }}">Alumnos</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Profesores</a>
+                            <a class="nav-link menu-item" href="{{ route('profesores.index') }}">Profesores</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('perfil') }}">Perfil</a>
+                            <a class="nav-link menu-item" href="{{ route('perfil') }}">Perfil</a>
                         </li>
                     </ul>
                 </div>

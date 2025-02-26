@@ -2,11 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Student;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 
@@ -53,9 +49,9 @@ class StudentTest extends TestCase
     }
 
     /**
-     * Test to create the students.
+     * Test to create a student.
      */
-    public function test_create_students ()
+    public function test_create_student ()
     {
         $student = [
             'nombre' => 'Jacinto',

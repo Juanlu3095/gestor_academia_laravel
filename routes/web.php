@@ -36,6 +36,7 @@ Route::get('/profesores/{id}', [TeacherController::class, 'show'])->name('profes
 Route::post('/profesores', [TeacherController::class, 'create'])->name('profesores.create');
 Route::put('/profesores/{id}', [TeacherController::class, 'update'])->name('profesores.put');
 Route::delete('/profesores/{id}', [TeacherController::class, 'delete'])->name('profesores.delete');
+// Ruta para una página en la que se ve en detalle a un alumno/profesor en concreto ??
 
 /* Incidencias */
 

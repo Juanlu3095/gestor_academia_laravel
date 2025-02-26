@@ -45,7 +45,9 @@
                 </tbody>
             </table>
         </div>
-        {{ $teachers->links('layouts._partials.paginator') }}
+        <div class="paginacion">
+            {{ $teachers->links('layouts._partials.paginator') }}
+        </div>
     </div>
 
     <!-- MODALES -->
@@ -247,6 +249,7 @@
                         
                     // Se recargan correctamente los datos de la tabla al eliminar un registro
                     $( "#tabla" ).load( "/profesores #tabla" );
+                    $(".paginacion").load("/profesores .paginacion")
                 })
                 .catch (error => {
                     console.error(error)
