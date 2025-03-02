@@ -18,7 +18,7 @@ class StudentController extends Controller
         $busqueda = $request->query('busqueda'); // Obtenemos el parámetro de consulta del form con GET
 
         if($busqueda) {
-            $students = Student::getStudents($busqueda);
+            $students = Student::getStudents(['busqueda' => $busqueda]);
         } else {
             $students = Student::getStudents();
         }

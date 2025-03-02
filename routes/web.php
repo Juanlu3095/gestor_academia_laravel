@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
@@ -41,3 +42,7 @@ Route::delete('/profesores/{id}', [TeacherController::class, 'delete'])->name('p
 /* Incidencias */
 
 /* Cursos */
+Route::get('/cursos', [CourseController::class, 'index'])->name('cursos.index');
+Route::post('/cursos', [CourseController::class, 'create'])->name('cursos.create');
+Route::put('/cursos/{id}', [CourseController::class, 'update'])->name('cursos.update');
+Route::delete('/cursos/{id}', [CourseController::class, 'delete'])->name('cursos.delete');

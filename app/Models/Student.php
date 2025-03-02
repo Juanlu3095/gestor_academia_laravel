@@ -13,8 +13,11 @@ class Student extends Model
 
     protected $hidden = [];
 
-    public static function getStudents(string $busqueda = null)
+    public static function getStudents(array $options = [])
     {
+        $busqueda = $options['busqueda'] ?? null; // Establecemos los parámetros que pueden ir dentro del array $options
+        $paginacion = $options['paginacion'] ?? false;
+
         try {
             if($busqueda != null) {
                 $students = DB::table('students')

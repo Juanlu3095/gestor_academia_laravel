@@ -19,7 +19,7 @@ class TeacherSeeder extends Seeder
                 "nombre" => "Manuel",
                 'apellidos' =>'Pérez Palacios',
                 'email' => 'mperez@gmail.com',
-                'dni' => '222222222A'
+                'dni' => '222222222I'
             ])
         );
     }

@@ -13,19 +13,20 @@ class Teacher extends Model
 
     protected $hidden = [];
 
-    public static function getTeachers (string $busqueda = null)
+    public static function getTeachers (string $busqueda = null, bool $paginate = false)
     {
         try {
+            $teachers = DB::table('teachers')
+                ->select('id', 'nombre', 'apellidos', 'email', 'dni');
+
             if($busqueda != null) {
-                $teachers = DB::table('teachers')
-                    ->select('id', 'nombre', 'apellidos', 'email', 'dni')
-                    ->whereAny(['nombre', 'apellidos', 'email', 'dni'], 'like', "%$busqueda%")
-                    ->paginate(5);
-                    
+                $teachers = $teachers->whereAny(['nombre', 'apellidos', 'email', 'dni'], 'like', "%$busqueda%");
+            }
+
+            if($paginate) {
+                $teachers = $teachers->paginate(5);
             } else {
-                $teachers = DB::table('teachers')
-                    ->select('id', 'nombre', 'apellidos', 'email', 'dni')
-                    ->paginate(5);
+                $teachers = $teachers->get();
             }
 
             return $teachers;

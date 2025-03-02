@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('fecha');
-            $table->string('horas');
+            $table->integer('horas');
+            $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('teacher_id');
             $table->timestamps();
 

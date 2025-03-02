@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('incidences', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('titulo');
             $table->text('sumario');
             $table->date('fecha'); // Sólo día, mes y año

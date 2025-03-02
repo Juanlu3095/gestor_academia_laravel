@@ -15,6 +15,6 @@ $(document).ready( function () {
     })
 
     // Se pretendía utilizar esta función cuando se hiciese un 'click', pero al hacerlo se recarga la página y se pierden los cambios
-    // que hace Jquery al hacer el click.
+    // que hace Jquery al hacer el click. Por ello se ha optado por una opción en la que se ejecute la función desde el principio.
 
 })

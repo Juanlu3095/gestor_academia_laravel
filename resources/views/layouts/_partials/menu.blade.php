@@ -8,7 +8,7 @@
         <nav class="menu">
             <ul class="menu-list">
                 <li><a class="menu-item" href="{{ route('welcome') }}">Inicio</a></li>
-                <li><a class="menu-item" href="">Cursos</a></li>
+                <li><a class="menu-item" href="{{ route('cursos.index') }}">Cursos</a></li>
                 <li><a class="menu-item" href="">Incidencias</a></li>
                 <li><a class="menu-item" href="{{ route('alumnos.index') }}">Alumnos</a></li>
                 <li><a class="menu-item" href="{{ route('profesores.index') }}">Profesores</a></li>
@@ -37,7 +37,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-item" href="#">Cursos</a>
+                            <a class="nav-link menu-item" href="{{ route('cursos.index') }}">Cursos</a>
                         </li>
 
                         <li class="nav-item">

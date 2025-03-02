@@ -18,8 +18,8 @@ class StudentSeeder extends Seeder
             new Request([
                 "nombre" => "Jacinto",
                 'apellidos' =>'López López',
-                'email' => 'jlopez@gmail.com',
-                'dni' => '111111111A'
+                'email' => 'jlopezlopez@gmail.com',
+                'dni' => '111111111J'
             ])
         );
     }

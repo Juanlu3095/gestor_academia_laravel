@@ -18,9 +18,9 @@ class TeacherController extends Controller
         $busqueda = $request->query('busqueda');
 
         if($busqueda) {
-            $teachers = Teacher::getTeachers($busqueda);
+            $teachers = Teacher::getTeachers($busqueda, true);
         } else {
-            $teachers = Teacher::getTeachers();
+            $teachers = Teacher::getTeachers(null, true);
         }
 
         return view('profesores', compact('teachers'));
