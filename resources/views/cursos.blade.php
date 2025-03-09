@@ -34,6 +34,7 @@
                             <td id="table-apellidos">{{ $course->fecha }}</td>
                             <td id="table-email">{{ $course->horas }}</td>
                             <td>
+                                <button type="button" class="btn btn-success"><a href="{{ route('cursos.details', $course->id) }}">Ver</a></button>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal{{ $course->id }}" data-editar="{{ $course->id }}">Editar</button>
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal{{ $course->id }}"data-eliminarid="{{ $course->id }}" data-eliminarnombre="{{ $course->nombre }}">Eliminar</button>
                             </td>

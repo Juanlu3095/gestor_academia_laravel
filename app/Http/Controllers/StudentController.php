@@ -57,7 +57,7 @@ class StudentController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $student = self::show($id); // Podemos llamar directamente a show del controlador y no al modelo directamente
+        self::show($id); // Podemos llamar directamente a show del controlador y no al modelo directamente
 
         $request->validate([
             'nombre' => 'string|required',

@@ -192,7 +192,7 @@
             body: JSON.stringify({
                 // FILTER vs FIND para buscar elementos en un array
                 // Filter devuelve un array (todos lo elementos que cumplen la condición => element.name == 'nombre')
-                // Find devuleve un único objeto (el primero que cumple la condición)
+                // Find devuelve un único objeto (el primero que cumple la condición)
 
                 nombre: datosArray.filter(element => element.name == 'nombre')[0].value, 
                 apellidos: datosArray.filter(element => element.name == 'apellidos')[0].value,

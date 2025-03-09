@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseStudentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
@@ -43,6 +44,12 @@ Route::delete('/profesores/{id}', [TeacherController::class, 'delete'])->name('p
 
 /* Cursos */
 Route::get('/cursos', [CourseController::class, 'index'])->name('cursos.index');
+Route::get('/cursos/{id}', [CourseController::class, 'details'])->name('cursos.details');
 Route::post('/cursos', [CourseController::class, 'create'])->name('cursos.create');
 Route::put('/cursos/{id}', [CourseController::class, 'update'])->name('cursos.update');
 Route::delete('/cursos/{id}', [CourseController::class, 'delete'])->name('cursos.delete');
+
+/* CursosAlumnos */
+Route::get('/cursoalumno/{id}/alumnos', [CourseStudentController::class, 'getAvailableStudents'])->name('cursoalumno.alumnos');
+Route::post('/cursoalumno', [CourseStudentController::class, 'addStudentToCourse'])->name('cursoalumno.create');
+Route::delete('/cursoalumno/{id}', [CourseStudentController::class, 'deleteStudentFromCourse'])->name('cursoalumno.delete');

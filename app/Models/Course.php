@@ -46,9 +46,9 @@ class Course extends Model
         try {
             $course = DB::table('courses')
                 ->join('teachers', 'courses.teacher_id', '=' , 'teachers.id')
-                ->select('courses.id', 'courses.nombre', 'courses.fecha', 'courses.horas', 'courses.descripcion', 'teachers.nombre as profesor')
+                ->select('courses.id', 'courses.nombre', 'courses.fecha', 'courses.horas', 'courses.descripcion', 'teachers.nombre as nombre_profesor', 'teachers.apellidos as apellidos_profesor')
                 ->where('courses.id', $id)
-                ->get();
+                ->first(); // Devuelve un sólo elemento y no una colección
 
             return $course;
         } catch (Exception $e) {

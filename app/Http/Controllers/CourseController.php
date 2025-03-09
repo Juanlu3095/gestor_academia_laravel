@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\CourseStudent;
 use App\Models\Teacher;
 use Error;
 use Illuminate\Http\RedirectResponse;
@@ -34,11 +35,31 @@ class CourseController extends Controller
     {
         $course = Course::getCourse($id);
 
-        if($course->count() < 1) {
+        if(!$course) {
             abort(404, 'Curso no encontrado.');
         }
 
         return $course;
+    }
+
+    /*
+    * It returns a view with course's info and the students enrolled
+    */
+    public function details (string $id, Request $request)
+    {
+        $course = self::show($id);
+        $request->validate([
+            'busqueda' => 'string'
+        ]);
+        $busqueda = $request->query('busqueda');
+
+        if($busqueda) {
+            $students = CourseStudent::getStudentsByCourse($id, $busqueda);
+        } else {
+            $students = CourseStudent::getStudentsByCourse($id);
+        }
+
+        return view('cursodetalle', compact('course', 'students'));        
     }
 
     public function create(Request $request)

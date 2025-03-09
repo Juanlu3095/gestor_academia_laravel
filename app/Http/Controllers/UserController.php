@@ -17,7 +17,7 @@ class UserController extends Controller
     {
         $userId = Auth::user()->id; // Obtención del usuario con Eloquent
         $userJson = User::getUser($userId); // Podríamos usar sólo Eloquent pero queremos usar query builder
-        $user = json_decode($userJson, true); // $userJson es algo como: [{""}]
+        $user = json_decode($userJson, true); // $userJson es algo como: [{""}]. Esto es por usar get() y no first() en la consulta.
         return view('perfil', compact('user'));
     }
 

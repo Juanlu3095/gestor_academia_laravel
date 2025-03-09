@@ -20,3 +20,18 @@ input.form-control, .btn, .table, .table button {
         font-size: 12px;
     }
 }
+
+.btn a {
+    text-decoration: none;
+    color: white;
+}
+
+/* TABLA AÑADIR ALUMNOS A CURSO cursodetalle.blade.php */
+#nuevoAlumnoModal .table-responsive {
+    padding: 1rem;
+}
+
+.modal-dialog-alumnoscurso{
+    max-width: 1000px;
+    padding: 1rem;
+}
