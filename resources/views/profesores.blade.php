@@ -180,7 +180,7 @@
     function editarModal() {
         var form = $("#editar-form"); //Identificamos el formulario por su id. Podemos usar form.prop('action')
         var datos = form.serialize();  //Serializamos sus datos: method, _token y values de los input
-        var datosArray = form.serializeArray(); // Devolvería los datos en array
+        var datosArray = form.serializeArray(); // Devolvería los datos en array, _token y _method incluidos
 
         fetch('/profesores/' + $("#editar-id").val(), {
             method: 'PUT',

@@ -43,7 +43,7 @@ class CourseStudent extends Model
                 $students = $students->whereAny(['students.nombre', 'students.apellidos', 'students.email', 'students.dni'], 'like', "%$busqueda%");
             }
 
-            $students = $students->get();
+            $students = $students->paginate(5);
             return $students;
 
             // Esto es lo mismo que:
@@ -65,7 +65,7 @@ class CourseStudent extends Model
     {
         try {
             $query = DB::table('students')
-                ->select('*')
+                ->select('id', 'nombre', 'apellidos', 'email')
                 ->whereNotExists(function(Builder $consulta) use ($idCourse) {
                     $consulta->select('student_id')
                         ->from('course_students')
@@ -73,7 +73,8 @@ class CourseStudent extends Model
                         ->whereColumn('students.id', 'course_students.student_id'); // Cuando se comparan por tablas usar esto
                         // Esto último es necesario para relacionar students y course_students
                 })
-                ->get();
+                ->orderBy('apellidos')
+                ->paginate(5);
             return $query;
             /* CONSULTA: SELECT * FROM `students`
             WHERE NOT EXISTS(

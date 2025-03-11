@@ -62,6 +62,9 @@
                 </tbody>
             </table>
         </div>
+        <div class="paginacion">
+            {{ $students->links('layouts._partials.paginator') }}
+        </div>
     </div>
 
     <!-- Modal añadir alumnos disponibles al curso -->
@@ -89,6 +92,9 @@
                             
                         </tbody>
                     </table>
+                    <div class="modal-paginacion d-flex justify-content-center gap-4">
+                        
+                    </div>
                 </div>
                 
             </div>
@@ -142,9 +148,10 @@
         .then(respuesta => {
             console.log(respuesta)
             // AL ABRIR Y CERRAR LA MODAL, LOS REGISTROS ANTERIORES SE MANTIENEN. DEBEMOS ELIMINAR LO QUE HABÍA ANTES
-            $('#content-students').text('')
+            $('#content-students').empty() // empty elimina todo lo que haya dentro del elemento
+            $('.modal-paginacion').empty()
 
-            respuesta.forEach(student => {
+            respuesta.data.forEach(student => {
                 let row = '<tr>' + 
                     '<td>' + student.nombre + '</td>' +
                     '<td>' + student.apellidos + '</td>' +
@@ -156,6 +163,62 @@
                 $('#content-students').append(row);
                 // VER CÓMO AUMENTAR TAMAÑO VENTANA MODAL Y LUEGO BOTÓN PARA AÑADIR ALUMNO
             });
+
+            let before = respuesta.prev_page_url ? `href="#" onclick="event.preventDefault(); getPageAlumnos('${respuesta.prev_page_url}', ${idCourse})"` : ''
+            let after = respuesta.next_page_url ? `href="#" onclick="event.preventDefault(); getPageAlumnos('${respuesta.next_page_url}', ${idCourse})"` : ''
+            let actualPage = respuesta.current_page
+            let lastPage = respuesta.last_page
+            let paginacion = `<a ${before}>Anterior</a><span>Página ${actualPage} de ${lastPage}</span><a ${after}>Siguiente</a>` // Esta mal
+
+            $('.modal-paginacion').append(paginacion);
+            // DOS OPCIONES:
+            // Invocar de nuevo esta función
+            // Llamar a la función getPageAlumnos() para que con Jquery se reescriba el DOM
+        })
+        .catch(error => {
+            console.error(error)
+        })
+    }
+
+    // Función para obtener los alumnos disponibles procedentes de la paginación
+    function getPageAlumnos(url, idCourse) {
+
+        fetch(url, {
+            method: 'GET'
+        })
+        .then(respuesta => {
+            if (respuesta.ok) {
+                return respuesta.json()
+            }
+            throw new Error("Error " + respuesta.status + " al llamar al backend: " + respuesta.statusText);
+        })
+        .then(respuesta => {
+            console.log(respuesta)
+
+            // Eliminamos los datos que pudieran haber para que no se solapen cuando se muestren nuevos registros
+            $('#content-students').empty()
+            $('.modal-paginacion').empty()
+
+            respuesta.data.forEach(student => {
+                let row = '<tr>' + 
+                    '<td>' + student.nombre + '</td>' +
+                    '<td>' + student.apellidos + '</td>' +
+                    '<td>' + student.email + '</td>' +
+                    '<td><form method="POST" id="inscripcion-form">@csrf' +
+                    '<button type="button" class="btn btn-primary" onclick="inscripcion(' + "[" + student.id + "," + idCourse + "]" + ')">Añadir</button></td></tr>' +
+                    '</form>';
+
+                $('#content-students').append(row);
+                // VER CÓMO AUMENTAR TAMAÑO VENTANA MODAL Y LUEGO BOTÓN PARA AÑADIR ALUMNO
+            });
+
+            let before = respuesta.prev_page_url ? `href="#" onclick="event.preventDefault(); getPageAlumnos('${respuesta.prev_page_url}', ${idCourse})"` : ''
+            let after = respuesta.next_page_url ? `href="#" onclick="event.preventDefault(); getPageAlumnos('${respuesta.next_page_url}', ${idCourse})"` : ''
+            let actualPage = respuesta.current_page
+            let lastPage = respuesta.last_page
+            let paginacion = `<a ${before}>Anterior</a><span>Página ${actualPage} de ${lastPage}</span><a ${after}>Siguiente</a>` // Esta mal
+
+            $('.modal-paginacion').append(paginacion);
         })
         .catch(error => {
             console.error(error)
@@ -198,15 +261,16 @@
     // Al abrir modal para eliminar
     function eliminarModal(data) // El parámetro debe estar en el botón eliminar 
     {
-        let idcourse = data.getAttribute('data-course');
-        let id = data.getAttribute('data-eliminarid');
+        let idcourse = data.getAttribute('data-course'); // ID del curso
+        let id = data.getAttribute('data-eliminarid'); // ID de course_students
         let nombre = data.getAttribute('data-eliminarnombre');
-        var form = $("#eliminar-form"); // Identificamos el formulario por su id. Podemos usar form.prop('action')
-        var datos = form.serializeArray();  // Serializamos sus datos: method y _token, éste último nos lo pide para el delete
-        console.log('ESTOS SON LOS DATOS: ', datos)
-        console.log('Esta es la data: ', data)
+       
         document.getElementById('nombrealumno').innerHTML = nombre;
-        confirmar = document.getElementById("confirmarEliminar"); // El botón que confirma la eliminación del registri
+        let confirmar = document.getElementById("confirmarEliminar"); // El botón que confirma la eliminación del registro
+
+        // Limpiamos eventos previos para que no se ejecuten cuando intentamos borrar otro registro
+        confirmar.replaceWith(confirmar.cloneNode(true));
+        confirmar = document.getElementById("confirmarEliminar");
 
             // Se ejecuta cuando hacemos click para confirmar el delete
             confirmar.addEventListener('click', function() {
