@@ -27,16 +27,26 @@ class CourseStudentController extends Controller
     /*
     * It returns available students to enroll in a specific course.
     */
-    public function getAvailableStudents(string $idCourse)
+    public function getAvailableStudents(string $idCourse, Request $request)
     {
+        $request->validate([
+            'busqueda' => 'string'
+        ]);
+
         $course = Course::getCourse($idCourse); // Comprobamos que el curso exista
 
         if(!$course) {
             abort(404, 'El curso no existe.');
         }
 
-        return CourseStudent::getAvailableStudents($idCourse);
- 
+        $keyword = $request->query('busqueda');
+
+        if($keyword) {
+            return CourseStudent::getAvailableStudents($idCourse, $keyword);
+        } else {
+            return CourseStudent::getAvailableStudents($idCourse);
+        }
+
     }
 
     /*

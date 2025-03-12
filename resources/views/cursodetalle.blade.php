@@ -78,6 +78,13 @@
                     </button>
                 </div>
 
+                <div class="search-container d-flex justify-content-between m-4">
+                    <form action="" class="d-flex gap-3" id="buscarAlumnoModal">
+                        <input type="text" class="form-control" name="busqueda" id="busqueda" placeholder="Palabra clave">
+                        <button type="button" onclick="nuevoAlumnoModal('{{ $course->id }}')" class="btn btn-primary">Buscar</button>
+                    </form>
+                </div>
+
                 <div class="table-responsive tabla-alumnos">
                     <table class="table table-striped table-responsive" id="tabla-alumnos-disponibles">
                         <thead>
@@ -136,7 +143,15 @@
     // Modal para añadir alumnos al curso
     function nuevoAlumnoModal(idCourse)
     {
-        fetch(`/cursoalumno/${idCourse}/alumnos`, {
+        let form = $("#buscarAlumnoModal"); //Identificamos el formulario de búsqueda por su id.
+        let datosArray = form.serializeArray(); // Devolvería los datos del form en un array
+        let keyword = datosArray.find(element => element.name == 'busqueda').value
+
+        // Necesitamos comprobar que se haya introducido una keyword en el input de búsqueda antes para que si no hay nada
+        // no de error al usar la url con 'busqueda' vacía
+        let url = keyword != '' ? `/cursoalumno/${idCourse}/alumnos?busqueda=${keyword}` : `/cursoalumno/${idCourse}/alumnos`
+
+        fetch(url, {
             method: 'GET'
         })
         .then(respuesta => {
@@ -146,10 +161,9 @@
             throw new Error("Error " + respuesta.status + " al llamar al backend: " + respuesta.statusText);
         })
         .then(respuesta => {
-            console.log(respuesta)
             // AL ABRIR Y CERRAR LA MODAL, LOS REGISTROS ANTERIORES SE MANTIENEN. DEBEMOS ELIMINAR LO QUE HABÍA ANTES
-            $('#content-students').empty() // empty elimina todo lo que haya dentro del elemento
-            $('.modal-paginacion').empty()
+            $('#content-students').empty() // empty() elimina todo lo que haya dentro del elemento
+            $('.modal-paginacion').empty() // text() SÓLO elimina texto
 
             respuesta.data.forEach(student => {
                 let row = '<tr>' + 
@@ -171,9 +185,7 @@
             let paginacion = `<a ${before}>Anterior</a><span>Página ${actualPage} de ${lastPage}</span><a ${after}>Siguiente</a>` // Esta mal
 
             $('.modal-paginacion').append(paginacion);
-            // DOS OPCIONES:
-            // Invocar de nuevo esta función
-            // Llamar a la función getPageAlumnos() para que con Jquery se reescriba el DOM
+
         })
         .catch(error => {
             console.error(error)
@@ -193,8 +205,6 @@
             throw new Error("Error " + respuesta.status + " al llamar al backend: " + respuesta.statusText);
         })
         .then(respuesta => {
-            console.log(respuesta)
-
             // Eliminamos los datos que pudieran haber para que no se solapen cuando se muestren nuevos registros
             $('#content-students').empty()
             $('.modal-paginacion').empty()
@@ -249,7 +259,6 @@
             throw new Error("Error " + respuesta.status + " al llamar al backend: " + respuesta.statusText);
         })
         .then (respuesta => {
-            console.log(respuesta)
             nuevoAlumnoModal(data[1]) // Como el contenido se introduce con fetch, tenemos que llamar a la función y no load como tal
             $('#tabla').load(`/cursos/${data[1]} #tabla`)
         })

@@ -61,7 +61,7 @@ class CourseStudent extends Model
     /*
     * It returns students that are not enrolled to a specific course.
     */
-    public static function getAvailableStudents(string $idCourse)
+    public static function getAvailableStudents(string $idCourse, string $keyword = null)
     {
         try {
             $query = DB::table('students')
@@ -72,8 +72,13 @@ class CourseStudent extends Model
                         ->where('course_id', $idCourse)
                         ->whereColumn('students.id', 'course_students.student_id'); // Cuando se comparan por tablas usar esto
                         // Esto último es necesario para relacionar students y course_students
-                })
-                ->orderBy('apellidos')
+                });
+
+                if($keyword != null) {
+                    $query = $query->whereAny(['nombre', 'apellidos', 'email'], 'like', "%$keyword%");
+                }
+
+                $query = $query->orderBy('apellidos')
                 ->paginate(5);
             return $query;
             /* CONSULTA: SELECT * FROM `students`
