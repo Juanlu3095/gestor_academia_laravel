@@ -43,7 +43,7 @@ Route::delete('/profesores/{id}', [TeacherController::class, 'delete'])->name('p
 /* Incidencias */
 
 /* Cursos */
-Route::get('/cursos', [CourseController::class, 'index'])->name('cursos.index');
+Route::get('/cursos', [CourseController::class, 'index'])->middleware('auth')->name('cursos.index');
 Route::get('/cursos/{id}', [CourseController::class, 'details'])->name('cursos.details');
 Route::post('/cursos', [CourseController::class, 'create'])->name('cursos.create');
 Route::put('/cursos/{id}', [CourseController::class, 'update'])->name('cursos.update');

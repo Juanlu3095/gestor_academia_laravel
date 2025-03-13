@@ -90,7 +90,7 @@ class CourseController extends Controller
             'fecha' => 'string|required',
             'horas' => 'integer|required',
             'descripcion' => 'string|required',
-            'profesor' => 'integer'
+            'profesor' => 'integer|required'
         ]);
 
         Course::updateCourse($request, $id);

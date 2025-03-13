@@ -13,6 +13,9 @@
 @section('content')
 
     <div class="datos-container">
+        
+        <a href="{{ url()->previous() }}">← Volver atrás</a>
+
         <h1 class="text-center">{{ $course->nombre }}</h1>
         
         <h4 class="title">Fecha</h4>
