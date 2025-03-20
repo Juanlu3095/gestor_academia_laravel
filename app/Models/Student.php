@@ -18,17 +18,18 @@ class Student extends Model
         $busqueda = $options['busqueda'] ?? null; // Establecemos los parámetros que pueden ir dentro del array $options
         $paginacion = $options['paginacion'] ?? false;
 
-        try {
-            if($busqueda != null) {
-                $students = DB::table('students')
-                    ->select('id', 'nombre', 'apellidos', 'email', 'dni')
-                    ->whereAny(['nombre', 'apellidos', 'email', 'dni'], 'like', "%$busqueda%")
-                    ->paginate(5);
+        try {         
+            $students = DB::table('students')
+                    ->select('id', 'nombre', 'apellidos', 'email', 'dni');
 
+            if($busqueda != null) {
+                $students = $students->whereAny(['nombre', 'apellidos', 'email', 'dni'], 'like', "%$busqueda%");
+            }
+
+            if($paginacion) {
+                $students = $students ->paginate(5);
             } else {
-                $students = DB::table('students')
-                    ->select('id', 'nombre', 'apellidos', 'email', 'dni')
-                    ->paginate(5);
+                $students = $students->get();
             }
             
             return $students;

@@ -26,6 +26,11 @@ class TeacherController extends Controller
         return view('profesores', compact('teachers'));
     }
 
+    public function list()
+    {
+        return Teacher::getTeachers();
+    }
+
     public function show (string $id)
     {
         $teacher = Teacher::getTeacher($id);

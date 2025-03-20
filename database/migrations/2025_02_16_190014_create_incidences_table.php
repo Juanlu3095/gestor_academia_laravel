@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('titulo');
             $table->text('sumario');
             $table->date('fecha'); // Sólo día, mes y año
-            $table->unsignedBigInteger('document_id');
-            $table->unsignedBigInteger('incidenceable_id');
-            $table->unsignedBigInteger('incidenceable_type');
+            $table->uuid('document_id')->nullable(); // El tipo de dato debe coincidir con el de tabla referenciada
+            $table->unsignedBigInteger('incidenceable_id'); // Hace referencia a la id de alumnos o profesores
+            $table->enum('incidenceable_type', ['Alumno', 'Profesor']); // Sólo puede tomar dos valores: 'Alumno' o 'Profesor'
             $table->timestamps();
 
             $table->foreign('document_id')->references('id')->on('documents')->onUpdate('cascade')->onDelete('cascade');

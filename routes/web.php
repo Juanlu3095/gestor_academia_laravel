@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseStudentController;
+use App\Http\Controllers\IncidenceController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
@@ -27,6 +28,7 @@ Route::delete('/users/{id}', [UserController::class, 'deleteCurrentUser'])->name
 
 /* Alumnos */
 Route::get('/alumnos', [StudentController::class, 'index'])->middleware('auth')->name('alumnos.index');
+Route::get('/alumnos/lista', [StudentController::class, 'list'])->name('alumnos.list');
 Route::get('/alumnos/{id}', [StudentController::class, 'show'])->name('alumnos.show');
 Route::post('/alumnos', [StudentController::class, 'create'])->name('alumnos.create');
 Route::put('/alumnos/{id}', [StudentController::class, 'update'])->name('alumnos.put');
@@ -34,13 +36,12 @@ Route::delete('/alumnos/{id}', [StudentController::class, 'delete'])->name('alum
 
 /* Profesores */
 Route::get('/profesores', [TeacherController::class, 'index'])->middleware('auth')->name('profesores.index');
+Route::get('/profesores/lista', [TeacherController::class, 'list'])->name('profesores.list');
 Route::get('/profesores/{id}', [TeacherController::class, 'show'])->name('profesores.show');
 Route::post('/profesores', [TeacherController::class, 'create'])->name('profesores.create');
 Route::put('/profesores/{id}', [TeacherController::class, 'update'])->name('profesores.put');
 Route::delete('/profesores/{id}', [TeacherController::class, 'delete'])->name('profesores.delete');
 // Ruta para una página en la que se ve en detalle a un alumno/profesor en concreto ??
-
-/* Incidencias */
 
 /* Cursos */
 Route::get('/cursos', [CourseController::class, 'index'])->middleware('auth')->name('cursos.index');
@@ -53,3 +54,11 @@ Route::delete('/cursos/{id}', [CourseController::class, 'delete'])->name('cursos
 Route::get('/cursoalumno/{id}/alumnos', [CourseStudentController::class, 'getAvailableStudents'])->name('cursoalumno.alumnos');
 Route::post('/cursoalumno', [CourseStudentController::class, 'addStudentToCourse'])->name('cursoalumno.create');
 Route::delete('/cursoalumno/{id}', [CourseStudentController::class, 'deleteStudentFromCourse'])->name('cursoalumno.delete');
+
+/* Incidencias */
+Route::get('/incidencias', [IncidenceController::class, 'index'])->name('incidencias.index');
+Route::get('/incidencias/nuevo', [IncidenceController::class, 'new'])->name('incidencias.new');
+Route::get('/incidencias/editar/{id}', [IncidenceController::class, 'edit'])->name('incidencias.edit');
+Route::post('/incidencias', [IncidenceController::class, 'create'])->name('incidencias.create');
+Route::put('/incidencias/{id}', [IncidenceController::class, 'update'])->name('incidencias.update');
+Route::delete('/incidencias/{id}', [IncidenceController::class, 'delete'])->name('incidencias.delete');

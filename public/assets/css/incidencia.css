@@ -1,0 +1,11 @@
+main {
+    margin: 2rem 4rem;
+
+    @media screen and (max-width: 767px) {
+        margin: 2rem 1rem;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+        margin: 2rem;
+    }
+}
