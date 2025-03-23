@@ -16,7 +16,7 @@
     </section>
     
     <section class="form-container">
-        <form action="{{ route('incidencias.create') }}" method="POST">
+        <form action="{{ route('incidencias.create') }}" method="POST" enctype="multipart/form-data">
             @method('POST')
             @csrf
             <div class="mb-3">

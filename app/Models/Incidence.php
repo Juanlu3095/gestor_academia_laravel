@@ -53,18 +53,18 @@ class Incidence extends Model
         }
     }
 
-    public static function createIncidence (Request $request)
+    public static function createIncidence (array $request)
     {
         try {
             $incidence = DB::table('incidences')
                 ->insert([
                     'id' => Str::uuid(), // Puede ocurrir que esto de problemas para el personal_access_token. Ver url en marcadores
-                    'titulo' => $request->titulo,
-                    'sumario' => $request->sumario,
-                    'fecha' => $request->fecha,
-                    'document_id' => $request->documento,
-                    'incidenceable_id' => $request->persona,
-                    'incidenceable_type' => $request->rol,
+                    'titulo' => $request['titulo'],
+                    'sumario' => $request['sumario'],
+                    'fecha' => $request['fecha'],
+                    'document_id' => $request['documento'],
+                    'incidenceable_id' => $request['persona'],
+                    'incidenceable_type' => $request['rol'],
                     'created_at' => now(),
                     'updated_at' => now()
                 ]);

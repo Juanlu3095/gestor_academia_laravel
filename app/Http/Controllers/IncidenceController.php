@@ -4,11 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Incidence;
+use App\services\DocumentService;
 use Error;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\File;
 
 class IncidenceController extends Controller
 {
+    private $documentService;
+
+    public function __construct(DocumentService $documentService)
+    {
+        $this->documentService = $documentService;
+    }
+
     public function index()
     {
         $incidences = Incidence::getIncidences();
@@ -51,17 +60,32 @@ class IncidenceController extends Controller
             'titulo' => 'required|string',
             'sumario' => 'required|string',
             'fecha' => 'required|date',
-            'documento' => '', // FALTA GESTIONAR EL DOCUMENTO
+            'documento' => ['nullable', File::types(['pdf', 'odt'])->max('10mb')], // FALTA GESTIONAR EL DOCUMENTO
             'persona' => 'required|numeric',
             'rol' => 'required|in:Alumno,Profesor',
         ]);
-        // VER infocontroller pruebaslaravel para guardado de archivos
-        $incidence = Incidence::createIncidence($request);
 
-        if(!$incidence) {
-            throw new Error('La incidencia no ha sido guardada');
+        // Delegamos el procesado del archivo al Servicio y obtenemos la id de ese documento
+        if($request->hasFile('documento')) {
+            $idDocument = $this->documentService->storeDocument($request->documento);
         }
 
+        $incidenceRequest = [
+            'titulo' => $request->titulo,
+            'sumario' => $request->sumario,
+            'fecha' => $request->fecha,
+            'documento' => $idDocument ?? NULL,
+            'persona' => $request->persona,
+            'rol' => $request->rol,
+        ];
+        
+        // Guardamos la incidencia pasando el array con el id del documento
+        $incidence = Incidence::createIncidence($incidenceRequest);
+
+        if(!$incidence) {
+            throw new Error('La incidencia no ha sido guardada.');
+        }
+        
         return redirect()->route('incidencias.index')->with('Success', 'Incidencia creada.');
     }
 

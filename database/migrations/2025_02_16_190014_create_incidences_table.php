@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('incidenceable_type', ['Alumno', 'Profesor']); // Sólo puede tomar dos valores: 'Alumno' o 'Profesor'
             $table->timestamps();
 
+            // Si se borra algún documento, se borra la incidencia
             $table->foreign('document_id')->references('id')->on('documents')->onUpdate('cascade')->onDelete('cascade');
         });
     }
