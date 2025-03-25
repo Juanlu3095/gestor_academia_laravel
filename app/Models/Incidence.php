@@ -39,15 +39,25 @@ class Incidence extends Model
         }
     }
 
+    // 32373962643361652D393930652D343238642D613139372D376337646365303531653934 TIENE DOCUMENTO
+    // 34653030316464332D376636372D346564622D626162652D396539623064646562633265 NO TIENE DOCUMENTO
     public static function getIncidence (string $id)
     {
-        try {
+        try { // PROBLEMA: SI NO HAY DOCUMENTO ASIGNADO ERROR 404
             $incidence = DB::table('incidences')
-                ->select(DB::raw('HEX(id) as id'), 'titulo', 'fecha', 'sumario', 'incidenceable_id', 'incidenceable_type', 'document_id')
-                ->where(DB::raw('HEX(id)'), '=', $id)
+                ->select(DB::raw('HEX(incidences.id) as id'), 'titulo', 'fecha', 'sumario', 'incidenceable_id', 'incidenceable_type', DB::raw('HEX(document_id) as document_id'))
+                ->where(DB::raw('HEX(incidences.id)'), '=', $id)
                 ->first();
 
-            return $incidence; // Esta consulta habrá que modificarla para obtener el documento en sí y no su id
+            if($incidence->document_id != null) {
+                $incidence = DB::table('incidences')
+                ->select(DB::raw('HEX(incidences.id) as id'), 'titulo', 'fecha', 'sumario', 'incidenceable_id', 'incidenceable_type', DB::raw('HEX(document_id) as document_id'), 'documents.nombre as documento')
+                ->join('documents', 'incidences.document_id', '=', 'documents.id')
+                ->where(DB::raw('HEX(incidences.id)'), '=', $id)
+                ->first();
+            }
+
+            return $incidence;
         } catch (Exception $e) {
             return 'Error en la consulta. Código del error: ' . $e->getMessage();
         }

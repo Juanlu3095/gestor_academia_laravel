@@ -1,6 +1,6 @@
 <?php
 
-namespace App\services;
+namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +19,7 @@ class DocumentService {
         $year = date("Y");
         $month = date("F");
         Storage::disk('private')->putFileAs($year . '/' . $month, $document, $fileName);
-        $url = Storage::url("app/private/$year/$month/$fileName");
+        $url = "$year/$month/$fileName";
 
         $data = [
             'nombre' => $fileName,
@@ -31,10 +31,28 @@ class DocumentService {
         return $document;
     }
 
-    public function deleteDocument()
+    /**
+     * Delete document from database and file storage
+     * @param string $id HEX(id)
+     * @return int $query 1 is all OK
+     */
+    public function deleteDocument(string $id)
     {
+        // LLAMAR AL MODELO PARA OBTENER EL DOCUMENTO POR HEX(ID)
+        $document = Document::getDocument($id);
+        // OBTENER EL NOMBRE DEL DOCUMENTO Y BUSCARLO EN EL DISCO
+        $urlDocumento = $document->url;
+        // BORRAR DOCUMENTO DEL DISCO
+        Storage::disk('private')->delete($urlDocumento);
+        // BORRAR DOCUMENTO DE LA BD
+        $query = Document::deleteDocument($id);
 
-    }
+        return $query;
+
+        // El OnCascade de las migraciones da problemas si se elimina el documento de una incidencia y luego se trata
+        // de eliminar una incidencia sin documento. Además si se comenta el código que elimina la incidencia y se elimina
+        // el documento, automáticamente se elimina la incidencia
+    }   
 }
 
 ?>

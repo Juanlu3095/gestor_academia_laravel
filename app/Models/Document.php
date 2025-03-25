@@ -11,6 +11,25 @@ use Illuminate\Support\Str;
 class Document extends Model
 {
     /**
+     * Get a specific document by HEX(id)
+     * @param string $id HEX(id)
+     * @return stdClass
+     */
+    public static function getDocument(string $id)
+    {
+        try {
+            $document = DB::table('documents')
+                ->select(DB::raw('HEX(id) as id'), 'nombre', 'url')
+                ->where(DB::raw('HEX(id)'), '=', $id)
+                ->first();
+
+            return $document;
+        } catch (Exception $e) {
+            return 'Error en la consulta. Código del error: ' . $e->getCode();
+        }
+    }
+
+    /**
      * Create a row in documents table.
      * @param array $data It contains 'nombre' and 'url' for the document.
      * @return string $id It returns id in uuid format.

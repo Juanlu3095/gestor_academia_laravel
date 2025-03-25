@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Incidence;
-use App\services\DocumentService;
+use App\Services\DocumentService;
 use Error;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\File;
@@ -24,7 +24,9 @@ class IncidenceController extends Controller
         return view('incidencias', compact('incidences'));
     }
 
-    /*
+    /**
+    * @param string $id Hex(id)
+    * @return stdClass
     * It lets to get all data for a specific incidence by id.
     * It is used by other functions, for example to assert an incidence exists.
     */
@@ -121,7 +123,10 @@ class IncidenceController extends Controller
 
     public function delete(string $id)
     {
-        self::show($id);
+        $incidence = self::show($id);
+        if($incidence->document_id != null) {
+            return $this->documentService->deleteDocument($incidence->document_id);
+        }
 
         Incidence::deleteIncidence($id);
     }

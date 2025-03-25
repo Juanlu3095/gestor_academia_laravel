@@ -58,6 +58,7 @@ Route::delete('/cursoalumno/{id}', [CourseStudentController::class, 'deleteStude
 /* Incidencias */
 Route::get('/incidencias', [IncidenceController::class, 'index'])->name('incidencias.index');
 Route::get('/incidencias/nuevo', [IncidenceController::class, 'new'])->name('incidencias.new');
+Route::get('/incidencias/{id}', [IncidenceController::class, 'show'])->name('incidencias.show'); // Esto es para mostrar los detalles
 Route::get('/incidencias/editar/{id}', [IncidenceController::class, 'edit'])->name('incidencias.edit');
 Route::post('/incidencias', [IncidenceController::class, 'create'])->name('incidencias.create');
 Route::put('/incidencias/{id}', [IncidenceController::class, 'update'])->name('incidencias.update');

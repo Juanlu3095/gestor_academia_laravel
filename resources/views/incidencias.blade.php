@@ -100,6 +100,7 @@
                 data: datos,
 
                 success: function(response) {
+                console.log(response)
                     alert('Incidencia eliminada.')
                     $('#eliminarModal').modal('hide')
                         
