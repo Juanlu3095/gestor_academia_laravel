@@ -54,6 +54,9 @@
             <div class="mb-3">
                 <label for="formFile" class="form-label">Documento opcional</label>
                 <input class="form-control" type="file" id="formFile" name="documento">
+                @if ($incidence->document_id)
+                    <p>Documento actual: {{ $incidence->documento }}</p>
+                @endif
             </div>
 
             <button type="submit" class="btn btn-primary my-4">Guardar incidencia</button>

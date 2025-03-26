@@ -225,10 +225,10 @@
             var datos = form.serializeArray();  // Serializamos sus datos: method y _token, éste último nos lo pide para el delete
 
             document.getElementById('nombreprofesor').innerHTML = nombre;
-            confirmar = document.getElementById("confirmarEliminar");
+            confirmar = $("#confirmarEliminar");
 
-            // Se ejecuta cuando hacemos click para confirmar el delete
-            confirmar.addEventListener('click', function() {
+            // Se ejecuta cuando hacemos click para confirmar el delete. off() para eliminar eventos anteriores
+            confirmar.off('click').on('click', function() {
                 fetch(`/profesores/${id}`, {
                     method: 'DELETE',
                     headers: {

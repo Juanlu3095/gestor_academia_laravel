@@ -62,7 +62,7 @@ class IncidenceController extends Controller
             'titulo' => 'required|string',
             'sumario' => 'required|string',
             'fecha' => 'required|date',
-            'documento' => ['nullable', File::types(['pdf', 'odt'])->max('10mb')], // FALTA GESTIONAR EL DOCUMENTO
+            'documento' => ['nullable', File::types(['pdf', 'odt'])->max('10mb')],
             'persona' => 'required|numeric',
             'rol' => 'required|in:Alumno,Profesor',
         ]);
@@ -100,18 +100,40 @@ class IncidenceController extends Controller
 
     public function update(string $id, Request $request)
     {
+        // ESTA FUNCIÓN REALIZA LAS SIGUIENTES ACCIONES:
+        // COMPROBACIÓN DE LA EXISTENCIA DE LA INCIDENCIA Y VALIDACIÓN DE LA REQUEST
+        // COMPROBACIÓN DE LA EXISTENCIA DE UN DOCUMENTO, EN CASO AFIRMATIVO ENVIAR LOS DATOS AL SERVICIO
+        // EL SERVICIO GUARDA EL DOCUMENTO
+        // ACTUALIZACIÓN DE LA INCIDENCIA CON SU MODELO, SI HAY idDocumento SE LA ENVIAMOS. ACTUALIZAR DOCUMENTO EN LA INCIDENCIA
+        // REDIRECCIÓN
+
         self::show($id);
 
         $request->validate([
             'titulo' => 'required|string',
             'sumario' => 'required|string',
             'fecha' => 'required|date',
-            'documento' => '', // FALTA GESTIONAR EL DOCUMENTO
+            'documento' => ['nullable', File::types(['pdf', 'odt'])->max('10mb')],
             'persona' => 'required|numeric',
             'rol' => 'required|in:Alumno,Profesor',
         ]);
 
-        $incidence = Incidence::updateIncidence($id, $request);
+        // Delegamos el procesado del archivo al Servicio y obtenemos la id de ese documento
+        if($request->hasFile('documento')) {
+            $idDocument = $this->documentService->storeDocument($request->documento);
+        }
+
+        // Enviamos los datos de la incidencia a actualizar al modelo. Documento puede ser nulo y se actua en consecuencia en modelo
+        $incidenceRequest = [
+            'titulo' => $request->titulo,
+            'sumario' => $request->sumario,
+            'fecha' => $request->fecha,
+            'documento' => $idDocument ?? NULL,
+            'persona' => $request->persona,
+            'rol' => $request->rol,
+        ];
+
+        $incidence = Incidence::updateIncidence($id, $incidenceRequest);
 
         if(!$incidence) {
             throw new Error('La incidencia no ha sido actualizada');
@@ -125,7 +147,7 @@ class IncidenceController extends Controller
     {
         $incidence = self::show($id);
         if($incidence->document_id != null) {
-            return $this->documentService->deleteDocument($incidence->document_id);
+            $this->documentService->deleteDocument($incidence->document_id);
         }
 
         Incidence::deleteIncidence($id);

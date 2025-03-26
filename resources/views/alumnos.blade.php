@@ -220,10 +220,10 @@
             var datos = form.serialize();  // Serializamos sus datos: method y _token, éste último nos lo pide para el delete
 
             document.getElementById('nombrealumno').innerHTML = nombre;
-            confirmar = document.getElementById("confirmarEliminar");
+            confirmar = $("#confirmarEliminar");
 
             // Se ejecuta cuando hacemos click para confirmar el delete
-            confirmar.addEventListener('click', function() {
+            confirmar.off('click').on('click', function() {
                 $.ajax({
                     type: 'DELETE',
                     url: '/alumnos/' + id,

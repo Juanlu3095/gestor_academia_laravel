@@ -5,7 +5,6 @@ namespace App\Models;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\JoinClause;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -39,8 +38,6 @@ class Incidence extends Model
         }
     }
 
-    // 32373962643361652D393930652D343238642D613139372D376337646365303531653934 TIENE DOCUMENTO
-    // 34653030316464332D376636372D346564622D626162652D396539623064646562633265 NO TIENE DOCUMENTO
     public static function getIncidence (string $id)
     {
         try { // PROBLEMA: SI NO HAY DOCUMENTO ASIGNADO ERROR 404
@@ -85,20 +82,32 @@ class Incidence extends Model
         }
     }
 
-    public static function updateIncidence (string $id, Request $request)
+    public static function updateIncidence (string $id, array $request)
     {
         try {
             $incidence = DB::table('incidences')
-                ->where(DB::raw('HEX(id)'), '=', $id)
-                ->update([
-                    'titulo' => $request->titulo,
-                    'sumario' => $request->sumario,
-                    'fecha' => $request->fecha,
-                    'document_id' => $request->documento,
-                    'incidenceable_id' => $request->persona,
-                    'incidenceable_type' => $request->rol,
-                    'updated_at' => now()
-                ]);
+                ->where(DB::raw('HEX(id)'), '=', $id);
+
+                if($request['documento']) {
+                    $incidence = $incidence->update([
+                        'titulo' => $request['titulo'],
+                        'sumario' => $request['sumario'],
+                        'fecha' => $request['fecha'],
+                        'document_id' => $request['documento'],
+                        'incidenceable_id' => $request['persona'],
+                        'incidenceable_type' => $request['rol'],
+                        'updated_at' => now()
+                    ]);
+                } else {
+                    $incidence = $incidence->update([
+                        'titulo' => $request['titulo'],
+                        'sumario' => $request['sumario'],
+                        'fecha' => $request['fecha'],
+                        'incidenceable_id' => $request['persona'],
+                        'incidenceable_type' => $request['rol'],
+                        'updated_at' => now()
+                    ]);
+                }
 
             return $incidence;
         } catch (Exception $e) {

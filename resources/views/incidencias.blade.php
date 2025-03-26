@@ -90,17 +90,16 @@
         var datos = form.serialize();  // Serializamos sus datos: method y _token, éste último nos lo pide para el delete
 
         document.getElementById('nombreincidencia').innerHTML = titulo;
-        confirmar = document.getElementById("confirmarEliminar");
+        confirmar = $("#confirmarEliminar");
 
-        // Se ejecuta cuando hacemos click para confirmar el delete
-        confirmar.addEventListener('click', function() {
+        // Se ejecuta cuando hacemos click para confirmar el delete. off('click') elimina todos los eventos de click
+        confirmar.off('click').on('click', function() {
             $.ajax({
                 type: 'DELETE',
                 url: '/incidencias/' + id,
                 data: datos,
 
                 success: function(response) {
-                console.log(response)
                     alert('Incidencia eliminada.')
                     $('#eliminarModal').modal('hide')
                         
