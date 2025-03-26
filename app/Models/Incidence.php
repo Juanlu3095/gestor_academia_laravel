@@ -15,22 +15,26 @@ class Incidence extends Model
         try { // Seleccionar id, titulo, fecha, nombre de la persona y rol (alumno o profesor)
             $incidences = DB::table('incidences')
                 ->select(DB::raw('HEX(incidences.id) as id'), 'incidences.titulo', 'incidences.fecha', 'incidences.incidenceable_type as rol', DB::raw('COALESCE(teachers.nombre, students.nombre) AS nombre, 
-                                                                            COALESCE(teachers.apellidos, students.apellidos) AS apellidos'))
-                ->leftJoin('teachers', function (JoinClause $join) {
+                    COALESCE(teachers.apellidos, students.apellidos) AS apellidos'))
+                ->leftJoin('teachers', function (JoinClause $join) { 
                     $join->where('incidences.incidenceable_type', '=', DB::raw("'Profesor'"))->on('incidences.incidenceable_id', '=', 'teachers.id');
-                })
+                }) // Las comparaciones con valores estáticos como 'Profesor' debe hacerse con DB::raw()
                 ->leftJoin('students', function (JoinClause $join) {
                     $join->where('incidences.incidenceable_type', '=', DB::raw("'Alumno'"))->on('incidences.incidenceable_id', '=', 'students.id');
-                })
-                ->get();
-                // Las comparaciones con valores estáticos como 'Profesor' debe hacerse con DB::raw()
+                });
 
+                if($busqueda) {
+                    $incidences = $incidences->whereAny(['incidences.titulo', 'students.nombre', 'students.apellidos', 'teachers.nombre', 'teachers.apellidos'], 'like', "%$busqueda%");
+                }
+                
+            $incidences = $incidences->get();
+                
                 /* SELECT incidences.id, incidences.titulo, incidences.fecha, incidences.incidenceable_type, 
-                    COALESCE(teachers.nombre, students.nombre) AS nombre, 
-                    COALESCE(teachers.apellidos, students.apellidos) AS apellidos
-                FROM `incidences`
-                LEFT JOIN `teachers` ON incidences.incidenceable_type = 'Profesor' AND incidences.incidenceable_id = teachers.id
-                LEFT JOIN `students` ON incidences.incidenceable_type = 'Alumno' AND incidences.incidenceable_id = students.id; */
+               COALESCE(teachers.nombre, students.nombre) AS nombre, 
+               COALESCE(teachers.apellidos, students.apellidos) AS apellidos
+               FROM `incidences`
+               LEFT JOIN `teachers` ON incidences.incidenceable_type = 'Profesor' AND incidences.incidenceable_id = teachers.id
+               LEFT JOIN `students` ON incidences.incidenceable_type = 'Alumno' AND incidences.incidenceable_id = students.id; */
 
             return $incidences;
         } catch (Exception $e) {

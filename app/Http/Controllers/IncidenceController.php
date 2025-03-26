@@ -18,9 +18,16 @@ class IncidenceController extends Controller
         $this->documentService = $documentService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $incidences = Incidence::getIncidences();
+        $busqueda = $request->query('busqueda');
+
+        if($busqueda) {
+            $incidences = Incidence::getIncidences($busqueda);
+        } else {
+            $incidences = Incidence::getIncidences();
+        }
+        
         return view('incidencias', compact('incidences'));
     }
 
