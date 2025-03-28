@@ -47,7 +47,7 @@ return [
         'private' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL').'/storage/private',
             'visibility' => 'private',
             'throw' => true, // Lanza o no excepción si no se guarda el archivo
         ],

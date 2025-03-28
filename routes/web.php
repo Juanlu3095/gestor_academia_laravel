@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseStudentController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\IncidenceController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
@@ -58,8 +59,12 @@ Route::delete('/cursoalumno/{id}', [CourseStudentController::class, 'deleteStude
 /* Incidencias */
 Route::get('/incidencias', [IncidenceController::class, 'index'])->name('incidencias.index');
 Route::get('/incidencias/nuevo', [IncidenceController::class, 'new'])->name('incidencias.new');
-Route::get('/incidencias/{id}', [IncidenceController::class, 'show'])->name('incidencias.show'); // Esto es para mostrar los detalles
+Route::get('/incidencias/{id}', [IncidenceController::class, 'details'])->middleware('auth')->name('incidencias.details');
 Route::get('/incidencias/editar/{id}', [IncidenceController::class, 'edit'])->name('incidencias.edit');
 Route::post('/incidencias', [IncidenceController::class, 'create'])->name('incidencias.create');
 Route::put('/incidencias/{id}', [IncidenceController::class, 'update'])->name('incidencias.update');
 Route::delete('/incidencias/{id}', [IncidenceController::class, 'delete'])->name('incidencias.delete');
+
+/* Documentos */
+Route::get('documento/{id}', [DocumentController::class, 'getUrlDocument'])->name('documento.get');
+Route::get('descargardocumento/{id}', [DocumentController::class, 'downloadDocument'])->name('documento.download');

@@ -8,6 +8,10 @@
 
 @section('content')
     <div class="datos-container">
+        <div class="text-center my-4">
+            <h1>Cursos</h1>
+        </div>
+
         <div class="new-container d-flex justify-content-between">
             <form action="{{ route('cursos.index') }}" class="d-flex gap-3">
                 <input type="text" class="form-control" name="busqueda" id="busqueda" placeholder="Palabra clave">

@@ -1,6 +1,6 @@
 <header>
     <!-- DESKTOP -->
-    <div class="desktop">
+    <section class="desktop">
         <div class="titulo">
             <h1>Gestor academia</h1>
         </div>
@@ -15,7 +15,7 @@
                 <li><a class="menu-item" href="{{ route('perfil') }}">Perfil</a></li>
             </ul>
         </nav>
-    </div>
+    </section>
     
 
     <!-- MOBILE -->

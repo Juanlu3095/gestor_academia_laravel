@@ -9,6 +9,9 @@
 @section('content')
 
 <div class="datos-container">
+        <div class="text-center my-4">
+            <h1>Incidencias</h1>
+        </div>
         <div class="new-container d-flex justify-content-between">
             <form action="{{ route('incidencias.index') }}" class="d-flex gap-3">
                 <input type="text" class="form-control" name="busqueda" id="busqueda" placeholder="Palabra clave">
@@ -39,6 +42,7 @@
                             <td id="table-rol">{{ $incidence->rol }}</td>
                             <td id="table-fecha">{{ $incidence->fecha }}</td>
                             <td>
+                                <button type="button" class="btn btn-success"><a href="{{ route('incidencias.details', $incidence->id) }}">Ver</a></button>
                                 <button type="button" class="btn btn-primary"><a href="{{ route('incidencias.edit', $incidence->id) }}">Editar</a></button>
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal"data-eliminarid="{{ $incidence->id }}" data-eliminartitulo="{{ $incidence->titulo }}" onclick="eliminarModal(this)">Eliminar</button>
                             </td>
@@ -48,7 +52,7 @@
             </table>
         </div>
         <div class="paginacion">
-            
+            {{ $incidences->links('layouts._partials.paginator') }}
         </div>
     </div>
 

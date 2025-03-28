@@ -27,7 +27,7 @@ class Incidence extends Model
                     $incidences = $incidences->whereAny(['incidences.titulo', 'students.nombre', 'students.apellidos', 'teachers.nombre', 'teachers.apellidos'], 'like', "%$busqueda%");
                 }
                 
-            $incidences = $incidences->get();
+            $incidences = $incidences->paginate(5);
                 
                 /* SELECT incidences.id, incidences.titulo, incidences.fecha, incidences.incidenceable_type, 
                COALESCE(teachers.nombre, students.nombre) AS nombre, 
@@ -46,14 +46,28 @@ class Incidence extends Model
     {
         try { // PROBLEMA: SI NO HAY DOCUMENTO ASIGNADO ERROR 404
             $incidence = DB::table('incidences')
-                ->select(DB::raw('HEX(incidences.id) as id'), 'titulo', 'fecha', 'sumario', 'incidenceable_id', 'incidenceable_type', DB::raw('HEX(document_id) as document_id'))
+                ->select(DB::raw('HEX(incidences.id) as id'), 'titulo', 'fecha', 'sumario', 'incidenceable_id', 'incidenceable_type', DB::raw('HEX(document_id) as document_id'), DB::raw('COALESCE(teachers.nombre, students.nombre) AS nombre, 
+                    COALESCE(teachers.apellidos, students.apellidos) AS apellidos'))
+                ->leftJoin('teachers', function (JoinClause $join) { 
+                    $join->where('incidences.incidenceable_type', '=', DB::raw("'Profesor'"))->on('incidences.incidenceable_id', '=', 'teachers.id');
+                }) // Las comparaciones con valores estáticos como 'Profesor' debe hacerse con DB::raw()
+                ->leftJoin('students', function (JoinClause $join) {
+                    $join->where('incidences.incidenceable_type', '=', DB::raw("'Alumno'"))->on('incidences.incidenceable_id', '=', 'students.id');
+                })
                 ->where(DB::raw('HEX(incidences.id)'), '=', $id)
                 ->first();
 
             if($incidence->document_id != null) {
                 $incidence = DB::table('incidences')
-                ->select(DB::raw('HEX(incidences.id) as id'), 'titulo', 'fecha', 'sumario', 'incidenceable_id', 'incidenceable_type', DB::raw('HEX(document_id) as document_id'), 'documents.nombre as documento')
+                ->select(DB::raw('HEX(incidences.id) as id'), 'titulo', 'fecha', 'sumario', 'incidenceable_id', 'incidenceable_type', DB::raw('HEX(document_id) as document_id'), 'documents.nombre as documento', DB::raw('COALESCE(teachers.nombre, students.nombre) AS nombre, 
+                    COALESCE(teachers.apellidos, students.apellidos) AS apellidos'))
                 ->join('documents', 'incidences.document_id', '=', 'documents.id')
+                ->leftJoin('teachers', function (JoinClause $join) { 
+                    $join->where('incidences.incidenceable_type', '=', DB::raw("'Profesor'"))->on('incidences.incidenceable_id', '=', 'teachers.id');
+                }) // Las comparaciones con valores estáticos como 'Profesor' debe hacerse con DB::raw()
+                ->leftJoin('students', function (JoinClause $join) {
+                    $join->where('incidences.incidenceable_type', '=', DB::raw("'Alumno'"))->on('incidences.incidenceable_id', '=', 'students.id');
+                })
                 ->where(DB::raw('HEX(incidences.id)'), '=', $id)
                 ->first();
             }

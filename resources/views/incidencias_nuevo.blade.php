@@ -8,7 +8,7 @@
 
 @section('content')
 
-<main>
+<main id="principal">
     <a href="{{ url()->previous() }}">← Volver atrás</a>
 
     <section class="title text-center">

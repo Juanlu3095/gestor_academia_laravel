@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Document;
 use App\Models\Incidence;
 use App\Services\DocumentService;
 use Error;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\File;
 
 class IncidenceController extends Controller
@@ -48,14 +50,16 @@ class IncidenceController extends Controller
         return $incidence;
     }
 
-    /*
+    /**
     * It shows a page with all information about a specific incidence.
+    * @param string $id HEX(id)
+    * @return view
     */
     public function details(string $id)
     {
-        $incidence = self::show($id);
+        $incidence = self::show($id);  
 
-        return view('', compact('incidence'));
+        return view('incidencia', compact('incidence'));
     }
 
     public function new()
