@@ -22,5 +22,14 @@ class StudentSeeder extends Seeder
                 'dni' => '111111111J'
             ])
         );
+
+        Student::createStudent(
+            new Request([
+                "nombre" => "Pepe",
+                'apellidos' =>'Lorente Moreno',
+                'email' => 'plorente@gmail.com',
+                'dni' => '111111111P'
+            ])
+        );
     }
 }

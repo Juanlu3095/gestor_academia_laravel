@@ -36,7 +36,7 @@
 
     <aside id="documento">
         @if ($incidence->document_id)
-            @if (!preg_match('/Mobile|Android|iPhone|iPad/i', $_SERVER['HTTP_USER_AGENT']))
+            @if (isset($_SERVER["HTTP_USER_AGENT"]) && !preg_match('/Mobile|Android|iPhone|iPad/i', $_SERVER['HTTP_USER_AGENT']))
                 <embed src="{{ route('documento.get', $incidence->document_id) }}" type="application/pdf" width="100%" height="1100px"></embed>
             @else
                 <button class="btn btn-primary download"><a href="{{ route('documento.download', $incidence->document_id) }}">Descargar documento</a></button>  

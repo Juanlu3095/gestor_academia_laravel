@@ -14,7 +14,7 @@ class Incidence extends Model
     {
         try { // Seleccionar id, titulo, fecha, nombre de la persona y rol (alumno o profesor)
             $incidences = DB::table('incidences')
-                ->select(DB::raw('HEX(incidences.id) as id'), 'incidences.titulo', 'incidences.fecha', 'incidences.incidenceable_type as rol', DB::raw('COALESCE(teachers.nombre, students.nombre) AS nombre, 
+                ->select(DB::raw('HEX(incidences.id) as id'), 'incidences.titulo', 'incidences.fecha', 'incidences.incidenceable_type as rol', DB::raw('HEX(incidences.document_id) as document_id'), DB::raw('COALESCE(teachers.nombre, students.nombre) AS nombre, 
                     COALESCE(teachers.apellidos, students.apellidos) AS apellidos'))
                 ->leftJoin('teachers', function (JoinClause $join) { 
                     $join->where('incidences.incidenceable_type', '=', DB::raw("'Profesor'"))->on('incidences.incidenceable_id', '=', 'teachers.id');
@@ -56,6 +56,10 @@ class Incidence extends Model
                 })
                 ->where(DB::raw('HEX(incidences.id)'), '=', $id)
                 ->first();
+
+            if(!$incidence) { // Si no se encuentra la incidencia first() devuelve un error al intentar leer document_id que es null
+                return null;  // con get() devuelve un array vacio []
+            }
 
             if($incidence->document_id != null) {
                 $incidence = DB::table('incidences')

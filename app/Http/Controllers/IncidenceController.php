@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Document;
 use App\Models\Incidence;
 use App\Services\DocumentService;
 use Error;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\File;
 
 class IncidenceController extends Controller
@@ -39,7 +37,7 @@ class IncidenceController extends Controller
     * It lets to get all data for a specific incidence by id.
     * It is used by other functions, for example to assert an incidence exists.
     */
-    public function show(string $id) // REVISAR EL FIRST() EN TODAS LAS FUNCIONES
+    public function show(string $id) // REVISAR EL FIRST() EN TODAS LAS FUNCIONES, puede dar error antes de entrar en el if con abort
     {
         $incidence = Incidence::getIncidence($id);
 

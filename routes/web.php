@@ -57,7 +57,7 @@ Route::post('/cursoalumno', [CourseStudentController::class, 'addStudentToCourse
 Route::delete('/cursoalumno/{id}', [CourseStudentController::class, 'deleteStudentFromCourse'])->name('cursoalumno.delete');
 
 /* Incidencias */
-Route::get('/incidencias', [IncidenceController::class, 'index'])->name('incidencias.index');
+Route::get('/incidencias', [IncidenceController::class, 'index'])->middleware('auth')->name('incidencias.index');
 Route::get('/incidencias/nuevo', [IncidenceController::class, 'new'])->name('incidencias.new');
 Route::get('/incidencias/{id}', [IncidenceController::class, 'details'])->middleware('auth')->name('incidencias.details');
 Route::get('/incidencias/editar/{id}', [IncidenceController::class, 'edit'])->name('incidencias.edit');
