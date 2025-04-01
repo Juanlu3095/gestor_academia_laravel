@@ -85,7 +85,7 @@ class UserTest extends TestCase
     public function test_logout()
     {
         $response = $this->post('/logout');
-        $response->dumpSession(); // como un dd de la sesion
+        //$response->dumpSession(); // como un dd de la sesion
         $this->assertGuest(); // Comprobamos que el usuario no está autenticado
         $response->assertRedirect('/login'); 
     }

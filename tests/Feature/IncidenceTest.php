@@ -190,8 +190,9 @@ class IncidenceTest extends TestCase
     */
     public function test_get_document_pdf()
     {
-        $incidences = Incidence::getIncidences($busqueda = 'Jacinto')->items(); // Obtenemos las incidencias como objetos
+        $incidences = Incidence::getIncidences($busqueda = 'Consulta médica Jacinto')->items(); // Obtenemos las incidencias como objetos
         $idDocument = $incidences[0]->document_id;
+        
         $response = $this->actingAs($this->create_user())->get("/documento/$idDocument");
         $response->assertStatus(200);
     }
@@ -210,7 +211,7 @@ class IncidenceTest extends TestCase
     */
     public function test_download_document()
     {
-        $incidencebuscar = Incidence::getIncidences($busqueda = 'Jacinto')->items(); // Obtenemos las incidencias como objetos
+        $incidencebuscar = Incidence::getIncidences($busqueda = 'Consulta médica Jacinto')->items(); // Obtenemos las incidencias como objetos
         $idDocument = $incidencebuscar[0]->document_id;
         $response = $this->actingAs($this->create_user())->get("/descargardocumento/$idDocument");
 
