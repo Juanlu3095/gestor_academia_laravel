@@ -161,7 +161,7 @@ class IncidenceTest extends TestCase
     */
     public function test_update_incidence ()
     {
-        $incidencebuscar = Incidence::getIncidences()->items(); // Obtenemos las incidencias como objetos
+        $incidencebuscar = Incidence::getIncidences($busqueda = 'Pepe')->items(); // Obtenemos las incidencias como objetos
         $idIncidence = $incidencebuscar[0]->id; // Obtenemos la id
 
         $incidence = [
@@ -183,6 +183,40 @@ class IncidenceTest extends TestCase
         $response = $this->actingAs($this->create_user())->put("/incidencias/$idIncidence", $incidence);
         $response->assertRedirectToRoute('incidencias.index');
         $this->assertDatabaseHas('incidences', $incidenceDB);
+    }
+
+    /**
+    * Test to get a specific document.
+    */
+    public function test_get_document_pdf()
+    {
+        $incidences = Incidence::getIncidences($busqueda = 'Jacinto')->items(); // Obtenemos las incidencias como objetos
+        $idDocument = $incidences[0]->document_id;
+        $response = $this->actingAs($this->create_user())->get("/documento/$idDocument");
+        $response->assertStatus(200);
+    }
+
+    /**
+    * Test to get a specific document.
+    */
+    public function test_get_not_valid_document_pdf()
+    {
+        $response = $this->actingAs($this->create_user())->get("/documento/1");
+        $response->assertStatus(404);
+    }
+
+    /**
+    * Test to download a specific document.
+    */
+    public function test_download_document()
+    {
+        $incidencebuscar = Incidence::getIncidences($busqueda = 'Jacinto')->items(); // Obtenemos las incidencias como objetos
+        $idDocument = $incidencebuscar[0]->document_id;
+        $response = $this->actingAs($this->create_user())->get("/descargardocumento/$idDocument");
+
+        // Hay que poner assertStatus para que se procese la solicitud correctamente y que luego el assertDownload funcione
+        $response->assertStatus(200);
+        $response->assertDownload(); // Comprueba que se descargue un archivo
     }
 
     /**

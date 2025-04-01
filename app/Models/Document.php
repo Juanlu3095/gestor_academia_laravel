@@ -21,6 +21,10 @@ class Document extends Model
                 ->select(DB::raw('HEX(id) as id'), 'nombre', 'url')
                 ->where(DB::raw('HEX(id)'), '=', $id)
                 ->first();
+            
+            if(!$document) {
+                return null;
+            }
 
             return $document;
         } catch (Exception $e) {

@@ -13,9 +13,15 @@ class DocumentController extends Controller
     {
         $document = Document::getDocument($id);
 
+        if(!$document) {
+            abort(404, 'Documento no encontrado.'); 
+        }
+
         if(Storage::disk('private')->exists($document->url)) {
             $file = Storage::disk('private')->path($document->url);
             return response()->file($file, ['Content-Type' => 'application/pdf']);
+        } else {
+            abort(404, 'Documento no encontrado.');
         }
     }
 
