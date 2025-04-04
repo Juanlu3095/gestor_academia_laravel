@@ -70,16 +70,28 @@
                         @method('POST')
                         @csrf
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control w-100 mb-4" id="nuevo-nombre" name="nombre">
+                        <input type="text" class="form-control w-100 mb-2" id="nuevo-nombre" name="nombre_nuevo">
+                        @error('nombre_nuevo')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
 
                         <label for="apellidos">Apellidos</label>
-                        <input type="text" class="form-control w-100 mb-4" id="nuevo-apellidos" name="apellidos">
+                        <input type="text" class="form-control w-100 mb-2" id="nuevo-apellidos" name="apellidos_nuevo">
+                        @error('apellidos_nuevo')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
 
                         <label for="email">Email</label>
-                        <input type="email" class="form-control w-100 mb-4" id="nuevo-email" name="email">
+                        <input type="email" class="form-control w-100 mb-2" id="nuevo-email" name="email_nuevo">
+                        @error('email_nuevo')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
 
                         <label for="dni">DNI</label>
-                        <input type="text" class="form-control w-100 mb-4" id="nuevo-dni" name="dni">
+                        <input type="text" class="form-control w-100 mb-2" id="nuevo-dni" name="dni_nuevo">
+                        @error('dni_nuevo')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
                 
                     </div>
                     <div class="modal-footer">
@@ -105,19 +117,24 @@
                     <div class="modal-body">
                         @method('PUT')
                         @csrf
-                        <input type="hidden" class="form-control w-100 mb-4" id="editar-id" name="id">
+                        <input type="hidden" class="form-control w-100 mb-2" id="editar-id" name="id">
 
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control w-100 mb-4" id="editar-nombre" name="nombre">
+                        <input type="text" class="form-control w-100 mb-2" id="editar-nombre" name="nombre">
+                        <div id="error-nombre"></div>
 
                         <label for="apellidos">Apellidos</label>
-                        <input type="text" class="form-control w-100 mb-4" id="editar-apellidos" name="apellidos">
+                        <input type="text" class="form-control w-100 mb-2" id="editar-apellidos" name="apellidos">
+                        <div id="error-apellidos"></div>
 
                         <label for="email">Email</label>
-                        <input type="email" class="form-control w-100 mb-4" id="editar-email" name="email">
+                        <input type="email" class="form-control w-100 mb-2" id="editar-email" name="email">
+                        <div id="error-email"></div>
 
                         <label for="dni">DNI</label>
-                        <input type="text" class="form-control w-100 mb-4" id="editar-dni" name="dni">
+                        <input type="text" class="form-control w-100 mb-2" id="editar-dni" name="dni">
+                        <div id="error-dni"></div>
+                        
                 
                     </div>
                     <div class="modal-footer">
@@ -155,6 +172,16 @@
             </div>
         </div>
     </div>
+
+    <!-- Para abrir el modal de nuevo profesor si la validacion de los input da error -->
+    @if ($errors->has('nombre_nuevo') || $errors->has('apellidos_nuevo') || $errors->has('email_nuevo') || $errors->has('dni_nuevo'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var nuevoModal = new bootstrap.Modal(document.getElementById('nuevoModal'));
+                nuevoModal.show();
+            });
+        </script>
+    @endif
     
 @endsection
 
@@ -165,6 +192,13 @@
 // Al abrir modal de editar alumno
     function verModal(data) {
         let id = data.getAttribute('data-editar');
+
+        let propiedades = ['email', 'dni', 'nombre', 'apellidos']
+
+        // Limpia los errores anteriores en los div debajo de los input de la ventana modal
+        propiedades.forEach(propiedad => {
+            $(`#error-${propiedad}`).empty(); // empty todo lo que haya dentro del div, contenido y tags
+        });
 
         fetch(`/profesores/${id}`)
             .then(response => response.json())
@@ -185,28 +219,45 @@
         var form = $("#editar-form"); //Identificamos el formulario por su id. Podemos usar form.prop('action')
         var datos = form.serialize();  //Serializamos sus datos: method, _token y values de los input
         var datosArray = form.serializeArray(); // Devolvería los datos en array, _token y _method incluidos
-
+        
         fetch('/profesores/' + $("#editar-id").val(), {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json', // Lo que se envía desde JS
-                'Accept': 'text/plain', // Lo que se recibe como respuesta del fetch
+                'Accept': 'application/json', // Lo que se recibe como respuesta del fetch
                 'X-CSRF-TOKEN': datosArray.filter(element => element.name == '_token')[0].value // necesitamos pasarle el token para POST, PUT y DELETE
             },
             body: JSON.stringify({
                 // FILTER vs FIND para buscar elementos en un array
                 // Filter devuelve un array (todos lo elementos que cumplen la condición => element.name == 'nombre')
                 // Find devuelve un único objeto (el primero que cumple la condición)
-
+                
                 nombre: datosArray.filter(element => element.name == 'nombre')[0].value, 
                 apellidos: datosArray.filter(element => element.name == 'apellidos')[0].value,
                 email: datosArray.find(element => element.name == 'email').value,
                 dni: datosArray.find(element => element.name == 'dni').value
             })
         })
-        .then(respuesta => {
+        .then(async respuesta => {
             if (respuesta.ok) {
                 return respuesta.text()
+            }
+            let errorData = await respuesta.json();
+            let propiedades = ['email', 'dni', 'nombre', 'apellidos']
+
+            // Limpia los errores anteriores
+            propiedades.forEach(propiedad => {
+                $(`#error-${propiedad}`).empty(); // empty todo lo que haya dentro del div, contenido y tags
+            });
+
+            // Ejecuta el bucle en el que pinta cada error obtenido en su correspondiente div
+            for(let propiedad in errorData.errors) {            
+                for(i=0; i < errorData.errors[propiedad].length; i++) {
+                    if(propiedades.includes(propiedad)) {
+                        let error = '<p class="text-danger">' + errorData.errors[propiedad][i] + '</p>'
+                        $(`#error-${propiedad}`).append(error)
+                    }
+                }
             }
             throw new Error("Error " + respuesta.status + " al llamar al backend: " + respuesta.statusText);
         })
@@ -217,6 +268,7 @@
         })
         .catch(error => {
             console.error(error)
+            alert(`${error.responseJSON.message} Código del error: ${error.status}`)
         })
     }
 

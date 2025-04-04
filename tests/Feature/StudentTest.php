@@ -54,6 +54,13 @@ class StudentTest extends TestCase
     public function test_create_student ()
     {
         $student = [
+            'nombre_nuevo' => 'Jacinto',
+            'apellidos_nuevo' => 'Contreras',
+            'email_nuevo' => 'jcontreras@gmail.com',
+            'dni_nuevo' => '123456789p'
+        ];
+
+        $studentDB = [
             'nombre' => 'Jacinto',
             'apellidos' => 'Contreras',
             'email' => 'jcontreras@gmail.com',
@@ -62,7 +69,7 @@ class StudentTest extends TestCase
 
         $response = $this->actingAs($this->create_user())->post('/alumnos', $student);
         $response->assertRedirectToRoute('alumnos.index'); // Una vez hecho el post nos redirige al index
-        $this->assertDatabaseHas('students', $student);
+        $this->assertDatabaseHas('students', $studentDB);
     }
 
     /**

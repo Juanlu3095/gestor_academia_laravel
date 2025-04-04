@@ -3,18 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StudentRequest;
 use App\Models\Student;
 use Error;
-use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    public function index(Request $request)
+    public function index(StudentRequest $request)
     {
-        $request->validate([
-            'busqueda' => 'string'
-        ]);
-
         $busqueda = $request->query('busqueda'); // Obtenemos el parámetro de consulta del form con GET
 
         if($busqueda) {
@@ -42,15 +38,8 @@ class StudentController extends Controller
         return $student;
     }
 
-    public function create (Request $request)
+    public function create (StudentRequest $request)
     {
-        $request->validate([
-            'nombre' => 'string|required',
-            'apellidos' => 'string|required',
-            'email' => 'email|required',
-            'dni' => 'string|required',
-        ]);
-
         $student = Student::createStudent($request);
 
         if(!$student) { // ¿Cuándo prodría ocurrir este error? ¿Cuándo se pierda la conexión a base de datos?
@@ -60,16 +49,10 @@ class StudentController extends Controller
         return redirect()->route('alumnos.index');
     }
 
-    public function update(Request $request, string $id)
+    public function update(StudentRequest $request, string $id)
     {
         self::show($id); // Podemos llamar directamente a show del controlador y no al modelo directamente
 
-        $request->validate([
-            'nombre' => 'string|required',
-            'apellidos' => 'string|required',
-            'email' => 'email|required',
-            'dni' => 'string|required',
-        ]);
         Student::updateStudent($id, $request);
 
         // ESTÁ DEVOLVIENDO EL ANTIGUO, PERO AJAX CARGA LOS DATOS DE TODOS LOS ALUMNOS Y POR ESO SALE BIEN

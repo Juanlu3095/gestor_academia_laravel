@@ -57,6 +57,13 @@ class TeacherTest extends TestCase
     public function test_create_teacher ()
     {
         $teacher = [
+            'nombre_nuevo' => 'Jacinto',
+            'apellidos_nuevo' => 'Contreras',
+            'email_nuevo' => 'jcontreras@gmail.com',
+            'dni_nuevo' => '123456789p'
+        ];
+
+        $teacherDB = [
             'nombre' => 'Jacinto',
             'apellidos' => 'Contreras',
             'email' => 'jcontreras@gmail.com',
@@ -65,7 +72,7 @@ class TeacherTest extends TestCase
 
         $response = $this->actingAs($this->create_user())->post('/profesores', $teacher);
         $response->assertRedirectToRoute('profesores.index'); // Una vez hecho el post nos redirige al index
-        $this->assertDatabaseHas('teachers', $teacher);
+        $this->assertDatabaseHas('teachers', $teacherDB);
     }
 
     /**
@@ -107,7 +114,7 @@ class TeacherTest extends TestCase
     }
 
     /**
-    * Test to get update a specific teacher.
+    * Test to update a specific teacher.
     */
     public function test_update_teacher ()
     {
@@ -121,6 +128,26 @@ class TeacherTest extends TestCase
         $response = $this->actingAs($this->create_user())->put('/profesores/1', $teacher);
         $response->assertStatus(200);
         $this->assertDatabaseHas('teachers', $teacher);
+    }
+
+    /**
+    * Test to try TeacherRequest by put method.
+    */
+    public function test_wrong_update_teacher ()
+    {
+        $teacher = [
+            'nombre' => 'Pepe',
+            'apellidos' => 'Contreras',
+            'email' => 'pcontreras@gmail.com',
+        ];
+
+        // Usamos el Accept para que salga el 422 y no la redirección que Laravel nos envía con 302 cuando falla la validación
+        $headers = [
+            'Accept' => 'application/json'
+        ];
+
+        $response = $this->actingAs($this->create_user())->put('/profesores/1', $teacher, $headers);
+        $response->assertStatus(422);
     }
 
     /**

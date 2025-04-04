@@ -58,10 +58,10 @@ class Student extends Model
     {
         try {
             $student = DB::table('students')->insert([
-                'nombre' => $request->nombre,
-                'apellidos' => $request->apellidos,
-                'email' => $request->email,
-                'dni' => $request->dni,
+                'nombre' => $request->nombre_nuevo,
+                'apellidos' => $request->apellidos_nuevo,
+                'email' => $request->email_nuevo,
+                'dni' => $request->dni_nuevo,
                 'updated_at' => now(),
                 'created_at' => now()
             ]);

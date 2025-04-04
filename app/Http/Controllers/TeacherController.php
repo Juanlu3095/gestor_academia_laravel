@@ -3,18 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TeacherRequest;
 use App\Models\Teacher;
 use Error;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
-    public function index(Request $request)
+    public function index(TeacherRequest $request)
     {
-        $request->validate([
-            'busqueda' => 'string'
-        ]);
-
         $busqueda = $request->query('busqueda');
 
         if($busqueda) {
@@ -42,15 +39,8 @@ class TeacherController extends Controller
         return $teacher;
     }
 
-    public function create(Request $request)
+    public function create(TeacherRequest $request)
     {
-        $request->validate([
-            'nombre' => 'string|required',
-            'apellidos' => 'string|required',
-            'email' => 'email|required',
-            'dni' => 'string|required',
-        ]);
-
         $student = Teacher::createTeacher($request);
 
         if(!$student) {
@@ -60,16 +50,10 @@ class TeacherController extends Controller
         return redirect()->route('profesores.index');
     }
 
-    public function update(Request $request, string $id)
+    public function update(TeacherRequest $request, string $id)
     {
         self::show($id); // Llamamos a la función del controlador para comprobar si existe el profesor
 
-        $request->validate([
-            'nombre' => 'string|required',
-            'apellidos' => 'string|required',
-            'email' => 'email|required',
-            'dni' => 'string|required',
-        ]);
         Teacher::updateTeacher($id, $request);
         
         return response('Profesor actualizado.', 200);

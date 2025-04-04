@@ -69,18 +69,30 @@
                     <div class="modal-body">
                         @method('POST')
                         @csrf
+                        
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control w-100 mb-4" id="nuevo-nombre" name="nombre">
+                        <input type="text" class="form-control w-100 mb-2" id="nuevo-nombre" name="nombre_nuevo" value="{{ old('nombre_nuevo') }}">
+                        @error('nombre_nuevo')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
 
                         <label for="apellidos">Apellidos</label>
-                        <input type="text" class="form-control w-100 mb-4" id="nuevo-apellidos" name="apellidos">
+                        <input type="text" class="form-control w-100 mb-2" id="nuevo-apellidos" name="apellidos_nuevo" value="{{ old('apellidos_nuevo') }}">
+                        @error('apellidos_nuevo')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
 
                         <label for="email">Email</label>
-                        <input type="email" class="form-control w-100 mb-4" id="nuevo-email" name="email">
-
+                        <input type="email" class="form-control w-100 mb-2" id="nuevo-email" name="email_nuevo" value="{{ old('email_nuevo') }}">
+                        @error('email_nuevo')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                        
                         <label for="dni">DNI</label>
-                        <input type="text" class="form-control w-100 mb-4" id="nuevo-dni" name="dni">
-                
+                        <input type="text" class="form-control w-100 mb-2" id="nuevo-dni" name="dni_nuevo" value="{{ old('dni_nuevo') }}">
+                        @error('dni_nuevo')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" value="Cancelar">Cerrar</button>
@@ -108,16 +120,16 @@
                         <input type="hidden" class="form-control w-100 mb-4" id="editar-id" name="id">
 
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control w-100 mb-4" id="editar-nombre" name="nombre">
+                        <input type="text" class="form-control w-100 mb-2" id="editar-nombre" name="nombre" value="{{ old('nombre') }}">
 
                         <label for="apellidos">Apellidos</label>
-                        <input type="text" class="form-control w-100 mb-4" id="editar-apellidos" name="apellidos">
+                        <input type="text" class="form-control w-100 mb-2" id="editar-apellidos" name="apellidos" value="{{ old('apellidos') }}">
 
                         <label for="email">Email</label>
-                        <input type="email" class="form-control w-100 mb-4" id="editar-email" name="email">
+                        <input type="email" class="form-control w-100 mb-2" id="editar-email" name="email" value="{{ old('email') }}">
 
                         <label for="dni">DNI</label>
-                        <input type="text" class="form-control w-100 mb-4" id="editar-dni" name="dni">
+                        <input type="text" class="form-control w-100 mb-2" id="editar-dni" name="dni" value="{{ old('dni') }}">
                 
                     </div>
                     <div class="modal-footer">
@@ -155,6 +167,16 @@
             </div>
         </div>
     </div>
+
+    <!-- Para abrir el modal de nuevo alumno si la validacion de los input da error -->
+    @if ($errors->has('nombre_nuevo') || $errors->has('apellidos_nuevo') || $errors->has('email_nuevo') || $errors->has('dni_nuevo'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var nuevoModal = new bootstrap.Modal(document.getElementById('nuevoModal'));
+                nuevoModal.show();
+            });
+        </script>
+    @endif
     
 @endsection
 
