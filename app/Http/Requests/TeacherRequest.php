@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\Dni;
 
 class TeacherRequest extends FormRequest
 {
@@ -37,7 +38,7 @@ class TeacherRequest extends FormRequest
                     'nombre_nuevo' => 'required|string',
                     'apellidos_nuevo' => 'required|string',
                     'email_nuevo' => 'required|email',
-                    'dni_nuevo' => 'required|string'
+                    'dni_nuevo' => ['required', 'string', new Dni]
                 ];
             break;
 
@@ -46,7 +47,7 @@ class TeacherRequest extends FormRequest
                     'nombre' => 'required|string',
                     'apellidos' => 'required|string',
                     'email' => 'required|email',
-                    'dni' => 'required|string'
+                    'dni' => ['required', 'string', new Dni]
                 ];
             break;
         }
