@@ -43,7 +43,7 @@ class IncidenceTest extends TestCase
             "nombre" => "Jacinto",
             'apellidos' =>'López López',
             'email' => 'jlopezlopez@gmail.com',
-            'dni' => '111111111J'
+            'dni' => '94735930B'
         ]);
 
         $this->assertDatabaseHas('incidences', [

@@ -57,14 +57,14 @@ class StudentTest extends TestCase
             'nombre_nuevo' => 'Jacinto',
             'apellidos_nuevo' => 'Contreras',
             'email_nuevo' => 'jcontreras@gmail.com',
-            'dni_nuevo' => '123456789p'
+            'dni_nuevo' => '99032984K'
         ];
 
         $studentDB = [
             'nombre' => 'Jacinto',
             'apellidos' => 'Contreras',
             'email' => 'jcontreras@gmail.com',
-            'dni' => '123456789p'
+            'dni' => '99032984K'
         ];
 
         $response = $this->actingAs($this->create_user())->post('/alumnos', $student);
@@ -119,7 +119,7 @@ class StudentTest extends TestCase
             'nombre' => 'Pepe',
             'apellidos' => 'Contreras',
             'email' => 'pcontreras@gmail.com',
-            'dni' => '123456789k'
+            'dni' => '79700322D'
         ];
 
         $response = $this->actingAs($this->create_user())->put('/alumnos/1', $student);

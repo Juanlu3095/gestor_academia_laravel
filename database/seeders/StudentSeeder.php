@@ -19,7 +19,7 @@ class StudentSeeder extends Seeder
                 "nombre_nuevo" => "Jacinto",
                 'apellidos_nuevo' =>'López López',
                 'email_nuevo' => 'jlopezlopez@gmail.com',
-                'dni_nuevo' => '111111111J'
+                'dni_nuevo' => '94735930B'
             ])
         );
 
@@ -28,7 +28,7 @@ class StudentSeeder extends Seeder
                 "nombre_nuevo" => "Pepe",
                 'apellidos_nuevo' =>'Lorente Moreno',
                 'email_nuevo' => 'plorente@gmail.com',
-                'dni_nuevo' => '111111111P'
+                'dni_nuevo' => '90393207X'
             ])
         );
     }
