@@ -71,7 +71,7 @@ class CourseStudentController extends Controller
 
     public function deleteStudentFromCourse(string $id)
     {
-        self::show($id);
+        $this->show($id);
 
         $query = CourseStudent::deleteCourseStudent($id);
         return $query;

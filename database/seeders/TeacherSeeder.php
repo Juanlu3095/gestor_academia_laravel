@@ -16,10 +16,10 @@ class TeacherSeeder extends Seeder
     {
         Teacher::createTeacher(
             new Request([
-                "nombre" => "Manuel",
-                'apellidos' =>'Pérez Palacios',
-                'email' => 'mperez@gmail.com',
-                'dni' => '222222222I'
+                "nombre_nuevo" => "Manuel",
+                'apellidos_nuevo' =>'Pérez Palacios',
+                'email_nuevo' => 'mperez@gmail.com',
+                'dni_nuevo' => '222222222I'
             ])
         );
     }

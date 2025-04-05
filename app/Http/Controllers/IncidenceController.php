@@ -55,7 +55,7 @@ class IncidenceController extends Controller
     */
     public function details(string $id)
     {
-        $incidence = self::show($id);  
+        $incidence = $this->show($id);  
 
         return view('incidencia', compact('incidence'));
     }
@@ -102,7 +102,7 @@ class IncidenceController extends Controller
 
     public function edit (string $id)
     {
-        $incidence = self::show($id);
+        $incidence = $this->show($id);
 
         return view('incidencias_editar', compact('incidence'));
     }
@@ -116,7 +116,7 @@ class IncidenceController extends Controller
         // ACTUALIZACIÓN DE LA INCIDENCIA CON SU MODELO, SI HAY idDocumento SE LA ENVIAMOS. ACTUALIZAR DOCUMENTO EN LA INCIDENCIA
         // REDIRECCIÓN
 
-        self::show($id);
+        $this->show($id);
 
         $request->validate([
             'titulo' => 'required|string',
@@ -154,7 +154,7 @@ class IncidenceController extends Controller
 
     public function delete(string $id)
     {
-        $incidence = self::show($id);
+        $incidence = $this->show($id);
         if($incidence->document_id != null) {
             $this->documentService->deleteDocument($incidence->document_id);
         }

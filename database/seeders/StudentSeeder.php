@@ -16,19 +16,19 @@ class StudentSeeder extends Seeder
     {
         Student::createStudent(
             new Request([
-                "nombre" => "Jacinto",
-                'apellidos' =>'López López',
-                'email' => 'jlopezlopez@gmail.com',
-                'dni' => '111111111J'
+                "nombre_nuevo" => "Jacinto",
+                'apellidos_nuevo' =>'López López',
+                'email_nuevo' => 'jlopezlopez@gmail.com',
+                'dni_nuevo' => '111111111J'
             ])
         );
 
         Student::createStudent(
             new Request([
-                "nombre" => "Pepe",
-                'apellidos' =>'Lorente Moreno',
-                'email' => 'plorente@gmail.com',
-                'dni' => '111111111P'
+                "nombre_nuevo" => "Pepe",
+                'apellidos_nuevo' =>'Lorente Moreno',
+                'email_nuevo' => 'plorente@gmail.com',
+                'dni_nuevo' => '111111111P'
             ])
         );
     }

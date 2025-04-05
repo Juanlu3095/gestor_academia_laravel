@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TeacherRequest;
 use App\Models\Teacher;
 use Error;
-use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
@@ -52,7 +51,7 @@ class TeacherController extends Controller
 
     public function update(TeacherRequest $request, string $id)
     {
-        self::show($id); // Llamamos a la función del controlador para comprobar si existe el profesor
+        $this->show($id); // Llamamos a la función del controlador para comprobar si existe el profesor
 
         Teacher::updateTeacher($id, $request);
         
@@ -62,7 +61,7 @@ class TeacherController extends Controller
 
     public function delete (string $id)
     {
-        self::show($id);
+        $this->show($id);
 
         $query = Teacher::deleteTeacher($id);
         return $query; // Devuelve 1 si se elimina y 0 si no lo hace

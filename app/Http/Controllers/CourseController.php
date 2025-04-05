@@ -83,7 +83,7 @@ class CourseController extends Controller
 
     public function update(Request $request, string $id)
     {
-        self::show($id);
+        $this->show($id);
 
         $request->validate([
             'nombre' => 'string|required',
@@ -99,7 +99,7 @@ class CourseController extends Controller
 
     public function delete(string $id)
     {
-        self::show($id);
+        $this->show($id);
 
         $query = Course::deleteCourse($id);
 

@@ -51,7 +51,7 @@ class StudentController extends Controller
 
     public function update(StudentRequest $request, string $id)
     {
-        self::show($id); // Podemos llamar directamente a show del controlador y no al modelo directamente
+        $this->show($id); // Podemos llamar directamente a show del controlador y no al modelo directamente
 
         Student::updateStudent($id, $request);
 
@@ -64,7 +64,7 @@ class StudentController extends Controller
 
     public function delete (string $id)
     {
-        self::show($id);
+        $this->show($id);
 
         $query = Student::deleteStudent($id);
         return $query; // Devuelve 1 si se elimina y 0 si no lo hace
