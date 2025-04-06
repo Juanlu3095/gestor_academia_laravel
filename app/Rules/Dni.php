@@ -18,7 +18,7 @@ class Dni implements ValidationRule
         $letras = "TRWAGMYFPDXBNJZSQVHLCKE";
 
         if (!preg_match($nifRegEx, $value) || ($letras[(substr($value, 0, 8) % 23)] != strtoupper($value[8]))) {
-            $fail('El DNI no es válido');
+            $fail('El DNI no es válido.');
         }
         
     }

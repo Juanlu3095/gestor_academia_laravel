@@ -61,11 +61,11 @@ class Course extends Model
         try {
             $course = DB::table('courses')
                 ->insert([
-                    'nombre' => $request->nombre,
-                    'fecha' => $request->fecha,
-                    'horas' => $request->horas,
-                    'descripcion' => $request->descripcion,
-                    'teacher_id' => $request->profesor,
+                    'nombre' => $request->nombre_nuevo,
+                    'fecha' => $request->fecha_nuevo,
+                    'horas' => $request->horas_nuevo,
+                    'descripcion' => $request->descripcion_nuevo,
+                    'teacher_id' => $request->profesor_nuevo,
                     'created_at' => now(),
                     'updated_at' => now()
                 ]);

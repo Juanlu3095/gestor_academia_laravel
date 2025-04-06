@@ -60,13 +60,22 @@
                                             @csrf
                                             <label for="nombre" class="form-label">Nombre</label>
                                             <input type="text" class="form-control w-100 mb-4" id="edit-nombre" name="nombre" value="{{ $course->nombre }}">
+                                            @error('nombre')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
 
                                             <label for="fecha">Fecha</label>
                                             <input type="text" class="form-control w-100 mb-4" id="edit-fecha" name="fecha" value="{{ $course->fecha }}">
+                                            @error('fecha')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
 
                                             <label for="horas">Horas</label>
                                             <input type="number" class="form-control w-100 mb-4" id="edit-horas" name="horas" value="{{ $course->horas }}">
-                                            
+                                            @error('horas')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
+
                                             <label for="profesor">Profesor</label>
                                             <select class="form-control w-100 mb-4" id="edit-profesor" name="profesor" value="{{ $course->teacher_id }}">
                                                 @foreach ($teachers as $teacher)
@@ -75,15 +84,21 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            @error('profesor')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
 
                                             <label for="descripcion">Descripción</label>
                                             <textarea type="text" class="form-control w-100 mb-4" id="edit-descripcion" name="descripcion">{{ $course->descripcion }}
                                             </textarea>
+                                            @error('descripcion')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
 
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" value="Cancelar">Cerrar</button>
-                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                            <button type="submit" class="btn btn-primary" onclick="guardarUltimoCursoConsultado('{{ $course->id }}')">Guardar cambios</button>
                                         </div>
                                     </form>
                                     
@@ -142,16 +157,25 @@
                         @method('POST')
                         @csrf
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control w-100 mb-4" id="nuevo-nombre" name="nombre">
+                        <input type="text" class="form-control w-100 mb-2" id="nuevo-nombre" name="nombre_nuevo">
+                        @error('nombre_nuevo')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
 
                         <label for="fecha">Fecha</label>
-                        <input type="text" class="form-control w-100 mb-4" id="nuevo-fecha" name="fecha">
+                        <input type="text" class="form-control w-100 mb-2" id="nuevo-fecha" name="fecha_nuevo">
+                        @error('fecha_nuevo')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
 
                         <label for="horas">Horas</label>
-                        <input type="number" class="form-control w-100 mb-4" id="nuevo-horas" name="horas">
+                        <input type="number" class="form-control w-100 mb-2" id="nuevo-horas" name="horas_nuevo">
+                        @error('horas_nuevo')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
 
                         <label for="profesor">Profesor</label>
-                        <select class="form-control w-100 mb-4" id="nuevo-profesor" name="profesor">
+                        <select class="form-control w-100 mb-2" id="nuevo-profesor" name="profesor_nuevo">
                             <option value="" selected disabled hidden>
                                 Selecciona un profesor
                             </option>
@@ -161,10 +185,16 @@
                                 </option>
                             @endforeach
                         </select>
+                        @error('profesor_nuevo')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
 
                         <label for="descripcion">Descripción</label>
-                        <textarea type="text" class="form-control w-100 mb-4" id="nuevo-descripcion" name="descripcion"></textarea>
-                
+                        <textarea type="text" class="form-control w-100 mb-2" id="nuevo-descripcion" name="descripcion_nuevo"></textarea>
+                        @error('descripcion_nuevo')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" value="Cancelar">Cerrar</button>
@@ -175,7 +205,49 @@
         </div>
     </div>
 
+    <!-- Para abrir el modal de nuevo profesor si la validacion de los input da error -->
+    @if ($errors->has('nombre_nuevo') || $errors->has('fecha_nuevo') || $errors->has('horas_nuevo') || $errors->has('descripcion_nuevo') || $errors->has('profesor_nuevo'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var nuevoModal = new bootstrap.Modal(document.getElementById('nuevoModal'));
+                nuevoModal.show();
+            });
+        </script>
+
+    @elseif ($errors->has('nombre') || $errors->has('fecha') || $errors->has('horas') || $errors->has('descripcion') || $errors->has('profesor'))
+        <script>
+            /**
+             * @param {string} It contains cookie name
+             * @return {id || undefined} It returns cookie value if 'name' matches cookie or undefined if not
+             */
+            function getCookie(name) {
+                let matches = document.cookie.match(new RegExp(
+                    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+                ));
+                return matches ? decodeURIComponent(matches[1]) : undefined;
+            }
+            let idCourse = getCookie('last_course')
+
+            // Abre la ventana modal con el id del curso que se intentó modificar
+            document.addEventListener("DOMContentLoaded", function() {
+                var editarModal = new bootstrap.Modal(document.getElementById(`editarModal${idCourse}`)); // NO SE ABRE EL MODAL QUE TIENE QUE ABRIRSE
+                editarModal.show();
+            });
+        </script>
+    @endif
 @endsection
 
 @section('scripts')
+<script>
+    /**
+     * @param {string} id Contains course id
+     * It allows to set a cookie 'last_course' with course's id which was tried to update
+     */
+    function guardarUltimoCursoConsultado(id) {
+        let date = new Date(Date.now() + 86400e3); // Fecha de hoy + 1 día
+        date = date.toUTCString();
+        document.cookie = `last_course=${id}; expires=${date}; samesite=strict`;
+    }
+
+</script>
 @endsection

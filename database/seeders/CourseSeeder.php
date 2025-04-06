@@ -16,11 +16,11 @@ class CourseSeeder extends Seeder
     {
         Course::createCourse(
             new Request([
-                'nombre' => 'Desarrollo de aplicaciones con Java.',
-                'fecha' => 'Marzo 2025',
-                'horas' => 300,
-                'descripcion' => 'Curso avanzado de desarrollo de aplicaciones multiplataforma con Java.',
-                'profesor' => 1
+                'nombre_nuevo' => 'Desarrollo de aplicaciones con Java.',
+                'fecha_nuevo' => 'Marzo 2025',
+                'horas_nuevo' => 300,
+                'descripcion_nuevo' => 'Curso avanzado de desarrollo de aplicaciones multiplataforma con Java.',
+                'profesor_nuevo' => 1
             ])
         );
     }

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseStudentRequest;
 use App\Models\Course;
 use App\Models\CourseStudent;
 use Error;
-use Illuminate\Http\Request;
 
 class CourseStudentController extends Controller
 {
@@ -27,12 +27,8 @@ class CourseStudentController extends Controller
     /*
     * It returns available students to enroll in a specific course.
     */
-    public function getAvailableStudents(string $idCourse, Request $request)
+    public function getAvailableStudents(string $idCourse, CourseStudentRequest $request)
     {
-        $request->validate([
-            'busqueda' => 'string'
-        ]);
-
         $course = Course::getCourse($idCourse); // Comprobamos que el curso exista
 
         if(!$course) {
@@ -52,13 +48,8 @@ class CourseStudentController extends Controller
     /*
     * It allows to add a student to specific course.
     */
-    public function addStudentToCourse (Request $request)
+    public function addStudentToCourse (CourseStudentRequest $request)
     {
-        $request->validate([
-            'curso' => 'required|numeric',
-            'alumno' => 'required|numeric'
-        ]);
-
         $courseStudent = CourseStudent::createCourseStudent($request);
 
         if(!$courseStudent) {

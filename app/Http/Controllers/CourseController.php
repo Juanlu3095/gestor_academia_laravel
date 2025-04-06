@@ -3,21 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseRequest;
 use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\Teacher;
 use Error;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    public function index(Request $request)
+    public function index(CourseRequest $request)
     {
-        $request->validate([
-            'busqueda' => 'string'
-        ]);
-
         $keyword = $request->query('busqueda');
 
         if($keyword) {
@@ -45,12 +40,10 @@ class CourseController extends Controller
     /*
     * It returns a view with course's info and the students enrolled
     */
-    public function details (string $id, Request $request)
+    public function details (string $id, CourseRequest $request)
     {
-        $course = self::show($id);
-        $request->validate([
-            'busqueda' => 'string'
-        ]);
+        $course = $this->show($id);
+
         $busqueda = $request->query('busqueda');
 
         if($busqueda) {
@@ -62,16 +55,8 @@ class CourseController extends Controller
         return view('cursodetalle', compact('course', 'students'));        
     }
 
-    public function create(Request $request)
+    public function create(CourseRequest $request)
     {
-        $request->validate([
-            'nombre' => 'string|required',
-            'fecha' => 'string|required',
-            'horas' => 'integer|required',
-            'descripcion' => 'string',
-            'profesor' => 'integer|required'
-        ]);
-
         $course = Course::createCourse($request);
 
         if(!$course) {
@@ -81,17 +66,9 @@ class CourseController extends Controller
         return redirect()->route('cursos.index');
     }
 
-    public function update(Request $request, string $id)
+    public function update(CourseRequest $request, string $id)
     {
         $this->show($id);
-
-        $request->validate([
-            'nombre' => 'string|required',
-            'fecha' => 'string|required',
-            'horas' => 'integer|required',
-            'descripcion' => 'string|required',
-            'profesor' => 'integer|required'
-        ]);
 
         Course::updateCourse($request, $id);
         return redirect()->route('cursos.index');

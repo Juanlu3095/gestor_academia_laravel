@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 
@@ -36,14 +34,21 @@ class CourseTest extends TestCase
     public function test_prepare_teachers()
     {
         $teacher = [
+            'nombre_nuevo' => 'Jacinto',
+            'apellidos_nuevo' => 'Contreras',
+            'email_nuevo' => 'jcontreras@gmail.com',
+            'dni_nuevo' => '92239997S'
+        ];
+
+        $teacherDB = [
             'nombre' => 'Jacinto',
             'apellidos' => 'Contreras',
             'email' => 'jcontreras@gmail.com',
-            'dni' => '123456789p'
+            'dni' => '92239997S'
         ];
 
         $response = $this->actingAs($this->create_user())->post('/profesores', $teacher);
-        $this->assertDatabaseHas('teachers', $teacher);
+        $this->assertDatabaseHas('teachers', $teacherDB);
     }
 
     /**
@@ -52,14 +57,21 @@ class CourseTest extends TestCase
     public function test_prepare_students()
     {
         $student = [
+            'nombre_nuevo' => 'Jaimito',
+            'apellidos_nuevo' => 'Pérez',
+            'email_nuevo' => 'jperez@gmail.com',
+            'dni_nuevo' => '67838733A'
+        ];
+
+        $studentDB = [
             'nombre' => 'Jaimito',
             'apellidos' => 'Pérez',
             'email' => 'jperez@gmail.com',
-            'dni' => '123456789j'
+            'dni' => '67838733A'
         ];
 
         $response = $this->actingAs($this->create_user())->post('/alumnos', $student);
-        $this->assertDatabaseHas('students', $student);
+        $this->assertDatabaseHas('students', $studentDB);
     }
 
     /**
@@ -88,11 +100,11 @@ class CourseTest extends TestCase
     public function test_create_course ()
     {
         $course = [
-            'nombre' => 'Desarrollo de aplicaciones con PHP y MYSQL',
-            'fecha' => 'Diciembre 2025',
-            'horas' => 300,
-            'descripcion' => 'Curso de desarrollo de aplicaciones web con PHP y MYSQL',
-            'profesor' => 1
+            'nombre_nuevo' => 'Desarrollo de aplicaciones con PHP y MYSQL',
+            'fecha_nuevo' => 'Diciembre 2025',
+            'horas_nuevo' => 300,
+            'descripcion_nuevo' => 'Curso de desarrollo de aplicaciones web con PHP y MYSQL',
+            'profesor_nuevo' => 1
         ];
 
         // En la ruta el profesor se incluye con el input 'profesor' pero para verlo en la BD es 'teacher_id'
@@ -204,7 +216,7 @@ class CourseTest extends TestCase
             'nombre' => 'Jaimito',
             'apellidos' => 'Pérez',
             'email' => 'jperez@gmail.com',
-            'dni' => '123456789j'
+            'dni' => '67838733A'
         ];
         
         $response = $this->actingAs($this->create_user())->get('/cursos/1');
@@ -225,7 +237,7 @@ class CourseTest extends TestCase
             'nombre' => 'Jaimito',
             'apellidos' => 'Pérez',
             'email' => 'jperez@gmail.com',
-            'dni' => '123456789j'
+            'dni' => '67838733A'
         ];
 
         $courseStudentDB = [
