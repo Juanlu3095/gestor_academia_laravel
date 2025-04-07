@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,13 +24,8 @@ class UserController extends Controller
     /*
     * It updates the current user data.
     */
-    public function updateCurrentUserData(Request $request)
+    public function updateCurrentUserData(UserRequest $request)
     {
-        $request->validate([
-            'name' => 'string',
-            'email' => 'email',
-            'password' => 'string'
-        ]);
         $userId = Auth::user()->id;
         $user = User::updateUser($userId, $request);
 

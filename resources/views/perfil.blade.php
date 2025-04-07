@@ -15,9 +15,15 @@
             @csrf
             <h3>Nombre</h3>
             <input type="text" name="name" value="{{ $user[0]['name'] }}">
+            @error('name')
+                <p class="text-danger">{{ $message }}</p>
+            @enderror
 
             <h3>Email</h3>
             <input type="text" name="email" value="{{ $user[0]['email'] }}">
+            @error('email')
+                <p class="text-danger">{{ $message }}</p>
+            @enderror
 
             <button type="submit">Guardar cambios</button>
         </form>
@@ -30,6 +36,9 @@
             @csrf
             <input type="password" name="password">
             <button type="submit">Cambiar contraseña</button>
+            @error('password')
+                <p class="text-danger">{{ $message }}</p>
+            @enderror
         </form>
     </div>
 

@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -37,6 +36,7 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
  
+        // No se puede usar un Form Request, pero sí validate aquí ya que éste devuelve un array y no el Form Request
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
  
@@ -51,13 +51,13 @@ class AuthController extends Controller
     /*
     * It allows to register an user.
     */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $request->validate([
+        /* $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
             'password' => 'required|confirmed'
-        ]);
+        ]); */
 
         $user = User::createUser($request);
 
