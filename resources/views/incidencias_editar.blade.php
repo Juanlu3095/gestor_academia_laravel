@@ -22,11 +22,17 @@
             <div class="mb-3">
                 <label for="titulo" class="form-label">Título</label>
                 <input type="text" class="form-control" id="titulo" name="titulo" value="{{ $incidence->titulo }}">
+                @error('titulo')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label for="fecha" class="form-label">Fecha</label>
                 <input type="date" class="form-control" id="fecha" name="fecha" value="{{ $incidence->fecha }}">
+                @error('fecha')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-3">
@@ -36,6 +42,9 @@
                     <option value="Profesor" {{ $incidence->incidenceable_type == 'Profesor' ? 'selected' : '' }}>Profesor</option>
                     <option value="Alumno" {{ $incidence->incidenceable_type == 'Alumno' ? 'selected' : '' }}>Alumno</option>
                 </select>
+                @error('rol')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Los option vienen de Javascript -->
@@ -44,11 +53,17 @@
                 <select class="form-select" id="persona" aria-label="Selecciona una persona" name="persona">
                     <option selected>Elija la persona afectada por la incidencia</option>   
                 </select>
+                @error('persona')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label for="sumario" class="form-label">Sumario</label>
                 <textarea class="form-control" id="sumario" rows="3" name="sumario">{{ $incidence->sumario }}</textarea>
+                @error('sumario')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-3">
@@ -57,6 +72,9 @@
                 @if ($incidence->document_id)
                     <p>Documento actual: {{ $incidence->documento }}</p>
                 @endif
+                @error('documento')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
 
             <button type="submit" class="btn btn-primary my-4">Guardar incidencia</button>

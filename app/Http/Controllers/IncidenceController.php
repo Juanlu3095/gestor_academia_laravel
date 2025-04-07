@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\IncidenceRequest;
 use App\Models\Incidence;
 use App\Services\DocumentService;
 use Error;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\File;
 
 class IncidenceController extends Controller
 {
@@ -18,7 +17,7 @@ class IncidenceController extends Controller
         $this->documentService = $documentService;
     }
 
-    public function index(Request $request)
+    public function index(IncidenceRequest $request)
     {
         $busqueda = $request->query('busqueda');
 
@@ -65,17 +64,8 @@ class IncidenceController extends Controller
         return view('incidencias_nuevo');
     }
 
-    public function create(Request $request)
+    public function create(IncidenceRequest $request)
     {
-        $request->validate([
-            'titulo' => 'required|string',
-            'sumario' => 'required|string',
-            'fecha' => 'required|date',
-            'documento' => ['nullable', File::types(['pdf', 'odt'])->max('10mb')],
-            'persona' => 'required|numeric',
-            'rol' => 'required|in:Alumno,Profesor',
-        ]);
-
         // Delegamos el procesado del archivo al Servicio y obtenemos la id de ese documento
         if($request->hasFile('documento')) {
             $idDocument = $this->documentService->storeDocument($request->documento);
@@ -107,7 +97,7 @@ class IncidenceController extends Controller
         return view('incidencias_editar', compact('incidence'));
     }
 
-    public function update(string $id, Request $request)
+    public function update(string $id, IncidenceRequest $request)
     {
         // ESTA FUNCIÓN REALIZA LAS SIGUIENTES ACCIONES:
         // COMPROBACIÓN DE LA EXISTENCIA DE LA INCIDENCIA Y VALIDACIÓN DE LA REQUEST
@@ -117,15 +107,6 @@ class IncidenceController extends Controller
         // REDIRECCIÓN
 
         $this->show($id);
-
-        $request->validate([
-            'titulo' => 'required|string',
-            'sumario' => 'required|string',
-            'fecha' => 'required|date',
-            'documento' => ['nullable', File::types(['pdf', 'odt'])->max('10mb')],
-            'persona' => 'required|numeric',
-            'rol' => 'required|in:Alumno,Profesor',
-        ]);
 
         // Delegamos el procesado del archivo al Servicio y obtenemos la id de ese documento
         if($request->hasFile('documento')) {
