@@ -10,6 +10,11 @@ use Illuminate\Support\Str;
 
 class Incidence extends Model
 {
+    /**
+     * It returns all incidences with pagination.
+     * @param string|null $busqueda
+     * @return \Illuminate\Pagination\LengthAwarePaginator|string
+     */
     public static function getIncidences (?string $busqueda = null)
     {
         try { // Seleccionar id, titulo, fecha, nombre de la persona y rol (alumno o profesor)
@@ -42,6 +47,11 @@ class Incidence extends Model
         }
     }
 
+    /**
+     * It returns a specific incidence by $id as an stdClass Object.
+     * @param string $id
+     * @return stdClass|null|string If there is no result, returns null.
+     */
     public static function getIncidence (string $id)
     {
         try { // PROBLEMA: SI NO HAY DOCUMENTO ASIGNADO ERROR 404
@@ -82,6 +92,11 @@ class Incidence extends Model
         }
     }
 
+    /**
+     * It creates an incidence.
+     * @param array $request
+     * @return bool|string true if course created correctly, false if not.
+     */
     public static function createIncidence (array $request)
     {
         try {
@@ -104,6 +119,12 @@ class Incidence extends Model
         }
     }
 
+    /**
+     * It updates a specific incidence by id.
+     * @param string $id
+     * @param array $request
+     * @return int|string Number of updated rows. It is 0 if none is updated.
+     */
     public static function updateIncidence (string $id, array $request)
     {
         try {
@@ -137,6 +158,11 @@ class Incidence extends Model
         }
     }
 
+    /**
+     * It deletes an incidence by a specific id.
+     * @param string $id
+     * @return int|string Number of rows deleted. Returns 0 if none is deleted.
+     */
     public static function deleteIncidence (string $id)
     {
         try {

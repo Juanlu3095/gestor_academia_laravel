@@ -28,6 +28,11 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * It returns an specific user's data as a collection.
+     * @param string $id
+     * @return \Illuminate\Support\Collection|string
+     */
     public static function getUser(string $id)
     {
         try {
@@ -41,6 +46,11 @@ class User extends Authenticatable
         }
     }
 
+    /**
+     * It creates a new user.
+     * @param Request $request
+     * @return bool|string true if user created correctly, false if not.
+     */
     public static function createUser(Request $request)
     {
         try {
@@ -60,6 +70,12 @@ class User extends Authenticatable
         }
     }
 
+    /**
+     * It updates a specific user by id.
+     * @param string $id
+     * @param Request $request
+     * @return int|string Number of updated rows. It is 0 if none is updated.
+     */
     public static function updateUser(string $id, Request $request)
     {
         // Hay que recorrer las key y las value de la request para inyectarlas en el select
@@ -81,6 +97,11 @@ class User extends Authenticatable
         }
     }
 
+    /**
+     * It deletes a user by a specific id.
+     * @param string $id
+     * @return int|string Number of rows deleted. Returns 0 if none is deleted.
+     */
     public static function deleteUser(string $id)
     {
         try {

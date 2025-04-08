@@ -10,9 +10,9 @@ use Illuminate\Support\Str;
 class Document extends Model
 {
     /**
-     * Get a specific document by HEX(id)
+     * Get a specific document by HEX(id) as a stdClass Object
      * @param string $id HEX(id)
-     * @return stdClass
+     * @return stdClass|null|string
      */
     public static function getDocument(string $id)
     {
@@ -60,7 +60,7 @@ class Document extends Model
     /**
      * Delete a specific row from documents by id.
      * @param string $id
-     * @return int $query 1 means ok, 0 means attempt failed
+     * @return int|string $query Number of rows deleted. Returns 0 if none is deleted.
      */
     public static function deleteDocument(string $id)
     {

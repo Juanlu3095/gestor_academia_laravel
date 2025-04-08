@@ -9,6 +9,11 @@ use Error;
 
 class StudentController extends Controller
 {
+    /**
+     * It returns a view with all students. It also can return students by search input.
+     * @param StudentRequest $request
+     * @return \Illuminate\View\View
+     */
     public function index(StudentRequest $request)
     {
         $busqueda = $request->query('busqueda'); // Obtenemos el parámetro de consulta del form con GET
@@ -22,11 +27,21 @@ class StudentController extends Controller
         return view('alumnos', compact('students'));
     }
 
+    /**
+     * It returns a list of all students.
+     * @return \Illuminate\Support\Collection
+     */
     public function list()
     {
         return Student::getStudents();
     }
 
+    /**
+     * It returns a collection from Student model or 404 if not.
+     * @param string $id
+     * @return \Illuminate\Support\Collection
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException 
+     */
     public function show(string $id)
     {
         $student = Student::getStudent($id);
@@ -38,6 +53,12 @@ class StudentController extends Controller
         return $student;
     }
 
+    /**
+     * It creates a student and redirects to alumnos.index.
+     * @param StudentRequest $request
+     * @return RedirectResponse
+     * @throws Error
+     */
     public function create (StudentRequest $request)
     {
         $student = Student::createStudent($request);
@@ -49,6 +70,12 @@ class StudentController extends Controller
         return redirect()->route('alumnos.index');
     }
 
+    /**
+     * It updates a student and sends a response.
+     * @param StudentRequest $request
+     * @param string $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(StudentRequest $request, string $id)
     {
         $this->show($id); // Podemos llamar directamente a show del controlador y no al modelo directamente
@@ -62,6 +89,11 @@ class StudentController extends Controller
 
     }
 
+    /**
+     * It deletes a student.
+     * @param string $id
+     * @return int 1 means correct 0 means error
+     */
     public function delete (string $id)
     {
         $this->show($id);

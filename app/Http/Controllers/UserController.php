@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    /*
+    /**
     * It returns the current user page.
+    * @return \Illuminate\View\View
     */
     public function index()
     {
@@ -21,8 +22,11 @@ class UserController extends Controller
         return view('perfil', compact('user'));
     }
 
-    /*
+    /**
     * It updates the current user data.
+    * @param UserRequest $request
+    * @return Redirect
+    * @throws \Symfony\Component\HttpKernel\Exception\HttpException 
     */
     public function updateCurrentUserData(UserRequest $request)
     {
@@ -60,6 +64,12 @@ class UserController extends Controller
         // dd(implode(', ' ,$request->except('_token')));
     }
 
+    /**
+    * It deletes the current user data. It returns 404 if error.
+    * @param Illuminate\Http\Request $request
+    * @return Redirect
+    * @throws \Symfony\Component\HttpKernel\Exception\HttpException 
+    */
     public function deleteCurrentUser(Request $request)
     {
         $userId = Auth::user()->id;

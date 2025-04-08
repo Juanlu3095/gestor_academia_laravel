@@ -13,7 +13,13 @@ class Teacher extends Model
 
     protected $hidden = [];
 
-    public static function getTeachers (string $busqueda = null, bool $paginate = false)
+    /**
+     * It returns all teachers with pagination and search input or not according to array $options.
+     * @param string|null $busqueda Can contains search input.
+     * @param bool $paginate Bool that indicates if needs pagination or not.
+     * @return \Illuminate\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection|string
+     */
+    public static function getTeachers (?string $busqueda = null, bool $paginate = false)
     {
         try {
             $teachers = DB::table('teachers')
@@ -36,6 +42,11 @@ class Teacher extends Model
         }
     }
 
+    /**
+     * It returns a specific teacher by $id as a collection.
+     * @param string $id
+     * @return \Illuminate\Support\Collection|string If there is no result, returns null.
+     */
     public static function getTeacher (string $id)
     {
         try {
@@ -50,6 +61,11 @@ class Teacher extends Model
         }
     }
 
+    /**
+     * It creates a teacher.
+     * @param Request $request
+     * @return bool|string true if course created correctly, false if not.
+     */
     public static function createTeacher (Request $request)
     {
         try {
@@ -69,6 +85,12 @@ class Teacher extends Model
         }
     }
 
+    /**
+     * It updates a specific teacher by id.
+     * @param string $id
+     * @param Request $request
+     * @return int|string Number of updated rows. It is 0 if none is updated.
+     */
     public static function updateTeacher (string $id, Request $request)
     {
         try {
@@ -82,6 +104,11 @@ class Teacher extends Model
         }
     }
 
+    /**
+     * It deletes a teacher by a specific id.
+     * @param string $id
+     * @return int|string Number of rows deleted. Returns 0 if none is deleted.
+     */
     public static function deleteTeacher (string $id)
     {
         try {

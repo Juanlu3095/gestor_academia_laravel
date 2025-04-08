@@ -32,9 +32,9 @@ class DocumentService {
     }
 
     /**
-     * Delete document from database and file storage
+     * Delete document from database and file storage.
      * @param string $id HEX(id)
-     * @return int $query 1 is all OK
+     * @return int $query It returns the number of rows affected.
      */
     public function deleteDocument(string $id)
     {

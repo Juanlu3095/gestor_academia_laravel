@@ -13,7 +13,12 @@ class Course extends Model
 
     protected $table = 'courses'; // La tabla asignada al modelo
 
-    public static function getCourses (string $keyword = null)
+    /**
+     * It returns all courses with pagination.
+     * @param string|null $keyword
+     * @return \Illuminate\Pagination\LengthAwarePaginator|string
+     */
+    public static function getCourses (?string $keyword = null)
     {
         try {
             if ($keyword != null) {
@@ -41,6 +46,11 @@ class Course extends Model
         }
     }
 
+    /**
+     * It returns a specific course by $id as an stdClass Object.
+     * @param string $id
+     * @return object|null|string If there is no result, returns null.
+     */
     public static function getCourse(string $id)
     {
         try {
@@ -56,6 +66,11 @@ class Course extends Model
         }
     }
 
+    /**
+     * It creates a course.
+     * @param Request $request
+     * @return bool|string true if course created correctly, false if not.
+     */
     public static function createCourse(Request $request)
     {
         try {
@@ -77,6 +92,12 @@ class Course extends Model
         }
     }
 
+    /**
+     * It updates a specific course by id.
+     * @param Request $request
+     * @param string $id
+     * @return int|string Number of updated rows. It is 0 if none is updated.
+     */
     public static function updateCourse(Request $request, string $id)
     {
         try {
@@ -97,6 +118,11 @@ class Course extends Model
         }
     }
 
+    /**
+     * It deletes a course by a specific id.
+     * @param string $id
+     * @return int|string Number of rows deleted. Returns 0 if none is deleted.
+     */
     public static function deleteCourse(string $id)
     {
         try {

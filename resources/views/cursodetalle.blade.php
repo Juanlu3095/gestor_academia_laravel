@@ -212,6 +212,7 @@
             $('#content-students').empty()
             $('.modal-paginacion').empty()
 
+            // @csrf SÓLO LO ENTIENDE BLADE, POR LO QUE NO SE PUEDE PASAR A OTRO ARCHIVO JS
             respuesta.data.forEach(student => {
                 let row = '<tr>' + 
                     '<td>' + student.nombre + '</td>' +

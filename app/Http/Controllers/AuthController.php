@@ -10,24 +10,28 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    /*
+    /**
     * It returns the login form.
+    * @return \Illuminate\View\View
     */
     public function loginForm()
     {
         return view('login');
     }
 
-    /*
+    /**
     * It returns the register form.
+    * @return \Illuminate\View\View
     */
     public function registerForm()
     {
         return view('register');
     }
 
-    /*
-    * It allows to login for user.
+    /**
+    * It allows the user to login.
+    * @param Illuminate\Http\Request $request
+    * @return Redirect
     */
     public function login(Request $request)
     {
@@ -48,17 +52,14 @@ class AuthController extends Controller
         }
     }
 
-    /*
-    * It allows to register an user.
+    /**
+    * It allows to register an user. Returns 404 if error.
+    * @param RegisterRequest $request
+    * @return Redirect
+    * @throws \Symfony\Component\HttpKernel\Exception\HttpException 
     */
     public function register(RegisterRequest $request)
     {
-        /* $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'password' => 'required|confirmed'
-        ]); */
-
         $user = User::createUser($request);
 
         if(!$user) {
@@ -68,8 +69,10 @@ class AuthController extends Controller
         return redirect(route('login'));
     }
 
-    /*
+    /**
     * It allows the user to logout.
+    * @param Illuminate\Http\Request $request
+    * @return Redirect
     */
     public function logout(Request $request)
     {

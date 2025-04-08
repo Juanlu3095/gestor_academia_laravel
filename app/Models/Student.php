@@ -13,6 +13,11 @@ class Student extends Model
 
     protected $hidden = [];
 
+    /**
+     * It returns all students with pagination and search input or not according to array $options.
+     * @param array $options Can contains search input and boolean for pagination
+     * @return \Illuminate\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection|string
+     */
     public static function getStudents(array $options = [])
     {
         $busqueda = $options['busqueda'] ?? null; // Establecemos los parámetros que pueden ir dentro del array $options
@@ -39,6 +44,11 @@ class Student extends Model
         }
     }
 
+    /**
+     * It returns a specific student by $id as a collection.
+     * @param string $id
+     * @return \Illuminate\Support\Collection|string If there is no result, returns null.
+     */
     public static function getStudent (string $id)
     {
         try {
@@ -54,6 +64,11 @@ class Student extends Model
         }
     }
 
+    /**
+     * It creates a student.
+     * @param Request $request
+     * @return bool|string true if course created correctly, false if not.
+     */
     public static function createStudent(Request $request)
     {
         try {
@@ -73,6 +88,12 @@ class Student extends Model
         }
     }
 
+    /**
+     * It updates a specific student by id.
+     * @param string $id
+     * @param Request $request
+     * @return int|string Number of updated rows. It is 0 if none is updated.
+     */
     public static function updateStudent (string $id, Request $request)
     {
         try {
@@ -86,6 +107,11 @@ class Student extends Model
         }
     }
 
+    /**
+     * It deletes a student by a specific id.
+     * @param string $id
+     * @return int|string Number of rows deleted. Returns 0 if none is deleted.
+     */
     public static function deleteStudent (string $id)
     {
         // Si no se encuentra usuario a eliminar, devolverá 0, y no un error

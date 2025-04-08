@@ -157,19 +157,19 @@
                         @method('POST')
                         @csrf
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control w-100 mb-2" id="nuevo-nombre" name="nombre_nuevo">
+                        <input type="text" class="form-control w-100 mb-2" id="nuevo-nombre" name="nombre_nuevo" value="{{ old('nombre_nuevo') }}">
                         @error('nombre_nuevo')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
 
                         <label for="fecha">Fecha</label>
-                        <input type="text" class="form-control w-100 mb-2" id="nuevo-fecha" name="fecha_nuevo">
+                        <input type="text" class="form-control w-100 mb-2" id="nuevo-fecha" name="fecha_nuevo" value="{{ old('fecha_nuevo') }}">
                         @error('fecha_nuevo')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
 
                         <label for="horas">Horas</label>
-                        <input type="number" class="form-control w-100 mb-2" id="nuevo-horas" name="horas_nuevo">
+                        <input type="number" class="form-control w-100 mb-2" id="nuevo-horas" name="horas_nuevo" value="{{ old('horas_nuevo') }}">
                         @error('horas_nuevo')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
@@ -190,7 +190,7 @@
                         @enderror
 
                         <label for="descripcion">Descripción</label>
-                        <textarea type="text" class="form-control w-100 mb-2" id="nuevo-descripcion" name="descripcion_nuevo"></textarea>
+                        <textarea type="text" class="form-control w-100 mb-2" id="nuevo-descripcion" name="descripcion_nuevo">{{ old('descripcion_nuevo') }}</textarea>
                         @error('descripcion_nuevo')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
@@ -238,16 +238,5 @@
 @endsection
 
 @section('scripts')
-<script>
-    /**
-     * @param {string} id Contains course id
-     * It allows to set a cookie 'last_course' with course's id which was tried to update
-     */
-    function guardarUltimoCursoConsultado(id) {
-        let date = new Date(Date.now() + 86400e3); // Fecha de hoy + 1 día
-        date = date.toUTCString();
-        document.cookie = `last_course=${id}; expires=${date}; samesite=strict`;
-    }
-
-</script>
+    <script src="{{ asset('assets/js/cursos.js') }}"></script>
 @endsection

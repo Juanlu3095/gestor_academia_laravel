@@ -11,6 +11,11 @@ use Error;
 
 class CourseController extends Controller
 {
+    /**
+     * It returns a view with all courses. It also can return courses by search input
+     * @param App\Http\Requests\CourseRequest $request
+     * @return \Illuminate\View\View
+     */
     public function index(CourseRequest $request)
     {
         $keyword = $request->query('busqueda');
@@ -26,6 +31,12 @@ class CourseController extends Controller
         return view('cursos', compact('courses', 'teachers'));
     }
 
+    /**
+     * It returns an stdClass object from course model or 404 if not
+     * @param string $id
+     * @return stdClass
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     */
     public function show(string $id)
     {
         $course = Course::getCourse($id);
@@ -37,8 +48,11 @@ class CourseController extends Controller
         return $course;
     }
 
-    /*
+    /**
     * It returns a view with course's info and the students enrolled
+    * @param string $id
+    * @param App\Http\Requests\CourseRequest $request
+    * @return \Illuminate\View\View
     */
     public function details (string $id, CourseRequest $request)
     {
@@ -55,6 +69,12 @@ class CourseController extends Controller
         return view('cursodetalle', compact('course', 'students'));        
     }
 
+    /**
+     * It creates a course and redirects to cursos.index
+     * @param CourseRequest $request
+     * @return RedirectResponse
+     * @throws Error
+     */
     public function create(CourseRequest $request)
     {
         $course = Course::createCourse($request);
@@ -66,21 +86,38 @@ class CourseController extends Controller
         return redirect()->route('cursos.index');
     }
 
+    /**
+     * It updates a course and redirects to cursos.index
+     * @param CourseRequest $request
+     * @return RedirectResponse
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     */
     public function update(CourseRequest $request, string $id)
     {
         $this->show($id);
 
-        Course::updateCourse($request, $id);
+        $updatedCourse = Course::updateCourse($request, $id);
+
+        if($updatedCourse == 0) {
+            abort(404, 'Curso no encontrado');
+        }
+
         return redirect()->route('cursos.index');
     }
 
+    /**
+     * It deletes a course and redirects to cursos.index. If not returns 404.
+     * @param string $id
+     * @return RedirectResponse
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException 
+     */
     public function delete(string $id)
     {
         $this->show($id);
 
         $query = Course::deleteCourse($id);
 
-        if(!$query) {
+        if($query == 0) {
             abort(404, 'Curso no encontrado.');
         }
 

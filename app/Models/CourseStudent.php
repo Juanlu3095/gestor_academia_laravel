@@ -10,8 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class CourseStudent extends Model
 {
-    /*
+    /**
     * It returns the resource by id. Only to use in controller to prove its existence.
+    * @param string $id
+    * @return Illuminate\Support\Collection|string
     */
     public static function getCourseStudent(string $id)
     {
@@ -27,10 +29,13 @@ class CourseStudent extends Model
         }
     }
 
-    /*
+    /**
     * It returns students enrolled to a given course.
+    * @param string $courseId
+    * @param string|null $busqueda Keyword input
+    * @return \Illuminate\Pagination\LengthAwarePaginator|string
     */
-    public static function getStudentsByCourse (string $courseId, string $busqueda = null)
+    public static function getStudentsByCourse (string $courseId, ?string $busqueda = null)
     {
         try {
             $students = DB::table('students')
@@ -58,10 +63,13 @@ class CourseStudent extends Model
         }
     }
 
-    /*
+    /**
     * It returns students that are not enrolled to a specific course.
+    * @param string $idCourse
+    * @param string|null $keyword Keyword input
+    * @return \Illuminate\Pagination\LengthAwarePaginator|string
     */
-    public static function getAvailableStudents(string $idCourse, string $keyword = null)
+    public static function getAvailableStudents(string $idCourse, ?string $keyword = null)
     {
         try {
             $query = DB::table('students')
@@ -80,6 +88,7 @@ class CourseStudent extends Model
 
                 $query = $query->orderBy('apellidos')
                 ->paginate(5);
+
             return $query;
             /* CONSULTA: SELECT * FROM `students`
             WHERE NOT EXISTS(
@@ -91,8 +100,10 @@ class CourseStudent extends Model
         }
     }
 
-    /*
+    /**
     * It adds a student to a given course.
+    * @param Request $request
+    * @return bool|string True if the query is correct. String with message for Exception.
     */
     public static function createCourseStudent(Request $request)
     {
@@ -110,6 +121,10 @@ class CourseStudent extends Model
         }
     }
 
+    /**
+     * @param string $id
+     * @return int|string Number of rows deleted. Returns 0 if none is deleted.
+     */
     public static function deleteCourseStudent (string $id)
     {
         try {

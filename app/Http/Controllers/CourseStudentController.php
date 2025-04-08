@@ -10,8 +10,11 @@ use Error;
 
 class CourseStudentController extends Controller
 {
-    /*
+    /**
     * It allows to find a resource from database. This function will be used in others before doing anything.
+    * @param String $id id for CourseStudent
+    * @return \Illuminate\Support\Collection
+    * @throws \Symfony\Component\HttpKernel\Exception\HttpException 
     */
     public function show(string $id)
     {
@@ -24,8 +27,12 @@ class CourseStudentController extends Controller
         return $courseStudent;
     }
 
-    /*
+    /**
     * It returns available students to enroll in a specific course.
+    * @param String $idCourse id for course
+    * @param CourseStudentRequest Contains busqueda input
+    * @return \Illuminate\Support\Collection
+    * @throws \Symfony\Component\HttpKernel\Exception\HttpException 
     */
     public function getAvailableStudents(string $idCourse, CourseStudentRequest $request)
     {
@@ -45,8 +52,11 @@ class CourseStudentController extends Controller
 
     }
 
-    /*
-    * It allows to add a student to specific course.
+    /**
+    * It allows to add a student to specific course. If all correct it returns bool, if not a string with error.
+    * @param CourseStudentRequest
+    * @return bool|string
+    * @throws Error
     */
     public function addStudentToCourse (CourseStudentRequest $request)
     {
@@ -60,6 +70,11 @@ class CourseStudentController extends Controller
 
     }
 
+    /**
+    * It deletes a student from a specific course by id of CourseStudent. It returns 1 if all OK, 0 if error.
+    * @param String $id
+    * @return int|string String only if Exception
+    */
     public function deleteStudentFromCourse(string $id)
     {
         $this->show($id);

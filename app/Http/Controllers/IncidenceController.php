@@ -17,6 +17,11 @@ class IncidenceController extends Controller
         $this->documentService = $documentService;
     }
 
+    /**
+     * It shows all incidences.
+     * @param IncidenceRequest $request It can contain search input
+     * @return \Illuminate\View\View
+     */
     public function index(IncidenceRequest $request)
     {
         $busqueda = $request->query('busqueda');
@@ -31,10 +36,11 @@ class IncidenceController extends Controller
     }
 
     /**
-    * @param string $id Hex(id)
-    * @return stdClass
     * It lets to get all data for a specific incidence by id.
     * It is used by other functions, for example to assert an incidence exists.
+    * @param string $id Hex(id)
+    * @return stdClass
+    * @throws \Symfony\Component\HttpKernel\Exception\HttpException 
     */
     public function show(string $id) // REVISAR EL FIRST() EN TODAS LAS FUNCIONES, puede dar error antes de entrar en el if con abort
     {
@@ -50,7 +56,7 @@ class IncidenceController extends Controller
     /**
     * It shows a page with all information about a specific incidence.
     * @param string $id HEX(id)
-    * @return view
+    * @return \Illuminate\View\View
     */
     public function details(string $id)
     {
@@ -59,11 +65,21 @@ class IncidenceController extends Controller
         return view('incidencia', compact('incidence'));
     }
 
+    /**
+     * It returns a view to create incidences.
+     * @return \Illuminate\View\View
+     */
     public function new()
     {
         return view('incidencias_nuevo');
     }
 
+    /**
+     * It allows to create a incidence.
+     * @param IncidenceRequest $request
+     * @return RedirectResponse
+     * @throws Error
+     */
     public function create(IncidenceRequest $request)
     {
         // Delegamos el procesado del archivo al Servicio y obtenemos la id de ese documento
@@ -90,6 +106,11 @@ class IncidenceController extends Controller
         return redirect()->route('incidencias.index')->with('Success', 'Incidencia creada.');
     }
 
+    /**
+     * It returns a view to edit a specific incidence by id.
+     * @param string $id
+     * @return \Illuminate\View\View
+     */
     public function edit (string $id)
     {
         $incidence = $this->show($id);
@@ -97,15 +118,16 @@ class IncidenceController extends Controller
         return view('incidencias_editar', compact('incidence'));
     }
 
+    /**
+     * It allows to update a specific incidence by id. It uses a services for file processing.
+     * @param string $id
+     * @param IncidenceRequest $request
+     * @return RedirectResponse
+     * @throws Error
+     */
     public function update(string $id, IncidenceRequest $request)
     {
-        // ESTA FUNCIÓN REALIZA LAS SIGUIENTES ACCIONES:
-        // COMPROBACIÓN DE LA EXISTENCIA DE LA INCIDENCIA Y VALIDACIÓN DE LA REQUEST
-        // COMPROBACIÓN DE LA EXISTENCIA DE UN DOCUMENTO, EN CASO AFIRMATIVO ENVIAR LOS DATOS AL SERVICIO
-        // EL SERVICIO GUARDA EL DOCUMENTO
-        // ACTUALIZACIÓN DE LA INCIDENCIA CON SU MODELO, SI HAY idDocumento SE LA ENVIAMOS. ACTUALIZAR DOCUMENTO EN LA INCIDENCIA
-        // REDIRECCIÓN
-
+        // Comprobamos que exista la incidencia
         $this->show($id);
 
         // Delegamos el procesado del archivo al Servicio y obtenemos la id de ese documento
@@ -123,6 +145,7 @@ class IncidenceController extends Controller
             'rol' => $request->rol,
         ];
 
+        // Actualizamos la incidencia
         $incidence = Incidence::updateIncidence($id, $incidenceRequest);
 
         if(!$incidence) {
@@ -133,6 +156,10 @@ class IncidenceController extends Controller
         
     }
 
+    /**
+     * It allows to delete a specific incidence by id. DocumentService searchs document to delete.
+     * @param string $id
+     */
     public function delete(string $id)
     {
         $incidence = $this->show($id);
