@@ -14,7 +14,7 @@ class IncidenceController extends Controller
 
     public function __construct(DocumentService $documentService)
     {
-        $this->documentService = $documentService;
+        $this->documentService = $documentService; // Si todos los miembros del servicio fueran static no haría falta este constructor
     }
 
     /**

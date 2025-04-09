@@ -11,7 +11,7 @@ class DocumentService {
     /**
     * Store document and returns id of the document. It is no necessary to register because it has no contructor.
     * @param $document UploadedFile
-    * @return $id string
+    * @return string uuid format
     */
     public function storeDocument(UploadedFile $document)
     {

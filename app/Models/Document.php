@@ -35,13 +35,13 @@ class Document extends Model
     /**
      * Create a row in documents table.
      * @param array $data It contains 'nombre' and 'url' for the document.
-     * @return string $id It returns id in uuid format.
+     * @return \Ramsey\Uuid\UuidInterface $id It returns id in uuid format.
      */
     public static function createDocument (array $data)
     {
         try {
             $id = Str::uuid(); // Generamos uuid antes de la consulta para luego devolverlo
-
+            
             DB::table('documents')
                 ->insert([
                     'id' => $id,
